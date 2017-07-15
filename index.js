@@ -1,8 +1,7 @@
 const electron = require('electron')
-// Module to control application life.
 const app = electron.app
-// Module to create native browser window.
 const BrowserWindow = electron.BrowserWindow
+const dialog = electron.dialog
 
 //uses github repo as update server
 const GhReleases = require('electron-gh-releases')
@@ -24,29 +23,34 @@ app.on('ready', function () {
 
   //waits for page to load before checking for updates
   page.once('did-frame-finish-load', () => {
+
     let options = {
       repo: 'SamuelDub/DiscordBot-App',
       currentVersion: app.getVersion()
     }
 
     const updater = new GhReleases(options)
-
-    let updateWindow;
-
+    
     // Check for updates
     // `status` returns true if there is a new update available
     updater.check((err, status) => {
       if (!err && status) {
-        // Download the update
-        updater.download()
-      } else {
-        updateWindow = new BrowserWindow({
-          width: 100,
-          height: 100
+        dialog.showMessageBox({
+          type: 'question',
+          buttons: ['Yes', 'No'],
+          title: 'Confirm',
+          message: 'A new update is available, would you like to download it and restart?'
+        }, function (response) {
+          if (response === 0) { // Runs the following if 'Yes' is clicked
+            downloadUpdate;
+          }
         })
-        updateWindow.loadURL('file://' + __dirname + '/app/update/update.html')
       }
     })
+
+    function downloadUpdate() {
+      updater.download();
+    }
 
     // When an update has been downloaded
     updater.on('update-downloaded', (info) => {
@@ -57,4 +61,5 @@ app.on('ready', function () {
     // Access electrons autoUpdater
     updater.autoUpdater
   });
+
 });

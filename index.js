@@ -1,23 +1,14 @@
-const isDev = require('electron-is-dev'); // this is required to check if the app is running in development mode. 
-const {
-  appUpdater
-} = require('./autoupdater');
-
 const electron = require('electron')
 // Module to control application life.
 const app = electron.app
 // Module to create native browser window.
 const BrowserWindow = electron.BrowserWindow
 
-if (require('electron-squirrel-startup')) {
-	app.quit();
-}
+//uses github repo as update server
+const GhReleases = require('electron-gh-releases')
+
 
 let passwordWindow;
-
-function isWindowsOrmacOS() {
-	return process.platform === 'darwin' || process.platform === 'win32';
-}
 
 app.on('ready', function () {
   var passwordWindow = new BrowserWindow({
@@ -31,11 +22,38 @@ app.on('ready', function () {
 
   const page = passwordWindow.webContents;
 
+  //waits for page to load before checking for updates
   page.once('did-frame-finish-load', () => {
-    const checkOS = isWindowsOrmacOS();
-    if (checkOS && !isDev) {
-      // Initate auto-updates on macOs and windows
-      appUpdater();
+    let options = {
+      repo: 'SamuelDub/DiscordBot-App',
+      currentVersion: app.getVersion()
     }
+
+    const updater = new GhReleases(options)
+
+    let updateWindow;
+
+    // Check for updates
+    // `status` returns true if there is a new update available
+    updater.check((err, status) => {
+      if (!err && status) {
+        // Download the update
+        updater.download()
+      } else {
+        updateWindow = new BrowserWindow({
+          width: 10,
+          height: 10
+        })
+      }
+    })
+
+    // When an update has been downloaded
+    updater.on('update-downloaded', (info) => {
+      // Restart the app and install the update
+      updater.install()
+    })
+
+    // Access electrons autoUpdater
+    updater.autoUpdater
   });
 });

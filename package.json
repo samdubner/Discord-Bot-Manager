@@ -10,13 +10,14 @@
   "build": {
     "appId": "discordbotapp",
     "win": {
-      "target": "nsis"
+      "target": "squirrel"
     }
   },
   "author": "SamuelDub",
   "devDependencies": {
     "electron": "^1.6.11",
-    "electron-builder": "^19.16.0"
+    "electron-builder": "^19.16.0",
+    "electron-builder-squirrel-windows": "^19.16.0"
   },
   "dependencies": {
     "discord.js": "^11.1.0",

@@ -44,6 +44,7 @@ app.on('ready', function () {
           width: 100,
           height: 100
         })
+        updateWindow.loadURL('file://' + __dirname + '/app/update/update.html')
       }
     })
 

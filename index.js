@@ -9,6 +9,10 @@ const app = electron.app
 // Module to create native browser window.
 const BrowserWindow = electron.BrowserWindow
 
+if (require('electron-squirrel-startup')) {
+	app.quit();
+}
+
 let passwordWindow;
 
 function isWindowsOrmacOS() {

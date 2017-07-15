@@ -21,6 +21,7 @@
   "dependencies": {
     "discord.js": "^11.1.0",
     "electron-is-dev": "^0.2.0",
+    "electron-squirrel-startup": "^1.0.0",
     "fs": "0.0.1-security"
   }
 }

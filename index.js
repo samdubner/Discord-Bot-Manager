@@ -41,8 +41,8 @@ app.on('ready', function () {
         updater.download()
       } else {
         updateWindow = new BrowserWindow({
-          width: 10,
-          height: 10
+          width: 100,
+          height: 100
         })
       }
     })

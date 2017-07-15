@@ -1,0 +1,26 @@
+{
+  "name": "app",
+  "version": "1.0.0",
+  "description": "A basic application using electron",
+  "main": "index.js",
+  "scripts": {
+    "start": "electron .",
+    "dist": "build"
+  },
+  "build": {
+    "appId": "discordbotapp",
+    "win": {
+      "target": "nsis"
+    }
+  },
+  "author": "SamuelDub",
+  "devDependencies": {
+    "electron": "^1.6.11",
+    "electron-builder": "^19.16.0"
+  },
+  "dependencies": {
+    "discord.js": "^11.1.0",
+    "electron-is-dev": "^0.2.0",
+    "fs": "0.0.1-security"
+  }
+}

@@ -29,38 +29,38 @@ app.on('ready', function () {
 
   const page = passwordWindow.webContents;
 
-  // const template = [{
-  //   label: 'File',
-  //   submenu: [{
-  //     label: 'Check For Updates',
-  //     click: function () {
-  //       updater.check((err, status) => {
-  //         if (!err && status) {
-  //           dialog.showMessageBox({
-  //             type: 'question',
-  //             buttons: ['Yes', 'No'],
-  //             title: 'Confirm',
-  //             message: 'A new update is available, would you like to download it and restart?'
-  //           }, function (response) {
-  //             if (response === 0) { // Runs the following if 'Yes' is clicked
-  //               downloadUpdate;
-  //             } else {
-  //               dialog.showMessageBox({
-  //                 type: 'info',
-  //                 buttons: ["Ok"],
-  //                 title: 'No update found',
-  //                 message: 'No new update was found'
-  //               })
-  //             }
-  //           })
-  //         }
-  //       })
-  //     }
-  //   }]
-  // }]
+  const template = [{
+    label: 'File',
+    submenu: [{
+      label: 'Check For Updates',
+      click: function () {
+        updater.check((err, status) => {
+          if (!err && status) {
+            dialog.showMessageBox({
+              type: 'question',
+              buttons: ['Yes', 'No'],
+              title: 'Confirm',
+              message: 'A new update is available, would you like to download it and restart?'
+            }, function (response) {
+              if (response === 0) { // Runs the following if 'Yes' is clicked
+                downloadUpdate();
+              }
+            })
+          } else {
+            dialog.showMessageBox({
+              type: 'info',
+              buttons: ['Ok'],
+              title: 'No new update is available',
+              message: 'There are currently no new updates available'
+            })
+          }
+        })
+      }
+    }]
+  }]
 
-  // const menu = Menu.buildFromTemplate(template)
-  // Menu.setApplicationMenu(menu)
+  const menu = Menu.buildFromTemplate(template)
+  Menu.setApplicationMenu(menu)
 
   //waits for page to load before checking for updates
   page.once('did-frame-finish-load', () => {

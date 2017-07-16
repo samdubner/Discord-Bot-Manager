@@ -30,7 +30,7 @@ app.on('ready', function () {
     resizable: false
   })
 
-  if (!(fs.existsSync("../../save.txt"))) {
+  if (!(fs.existsSync("../save.txt"))) {
     mainWindow.loadURL('file://' + __dirname + '/app/password/password.html');
   } else {
     mainWindow.loadURL('file://' + __dirname + '/app/main/main.html')

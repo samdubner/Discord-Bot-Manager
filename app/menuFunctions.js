@@ -58,7 +58,7 @@ module.exports = {
                 if (response == null) {
                     return;
                 } else {
-                    fs.unlinkSync("../../save.txt");
+                    fs.unlinkSync("../save.txt");
 
                     var key = {
                         "key": response
@@ -66,7 +66,7 @@ module.exports = {
 
                     var string = JSON.stringify(key)
 
-                    fs.writeFile('../../save.txt', string, function (err) {
+                    fs.writeFile('../save.txt', string, function (err) {
                         if (err) throw err;
                     });
                 }

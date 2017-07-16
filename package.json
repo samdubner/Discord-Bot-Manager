@@ -1,6 +1,6 @@
 {
   "name": "app",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "A basic application using electron",
   "main": "index.js",
   "scripts": {
@@ -24,6 +24,7 @@
   "dependencies": {
     "discord.js": "^11.1.0",
     "electron-gh-releases": "^2.0.4",
+    "electron-prompt": "^0.2.0",
     "fs": "0.0.1-security"
   }
 }

@@ -4,11 +4,19 @@
 const Discord = require('discord.js');
 const bot = new Discord.Client();
 
+const fs = require('fs')
+
 var online = false;
+
+
 
 $("#start").click(function () {
     if (online == false) {
-        bot.login("Mjg0MTI0ODQzMjY2NDA4NDU5.C__ZAg.NKPzEZZ-OZveAlXncmWxmIuDD_8");
+        var string = fs.readFileSync('../../save.txt', 'utf8')
+        var object = JSON.parse(string)
+        var key = object.key;
+        console.log(key);
+        bot.login(key);
         online = true;
     } else {
         alert("The bot is already on");
@@ -17,9 +25,9 @@ $("#start").click(function () {
 })
 
 $("#stop").click(function () {
-    if(online == true) {
-    bot.destroy();
-    online = false;
+    if (online == true) {
+        bot.destroy();
+        online = false;
     } else {
         alert("The bot is not online");
     }
@@ -36,4 +44,5 @@ $("#send").click(function () {
     }
     bot.channels.get("284565341869309962").send(document.getElementById("message-text").value);
     document.getElementById("message-text").value = "";
+
 })

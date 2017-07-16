@@ -1,6 +1,6 @@
 {
   "name": "app",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "A basic application using electron",
   "main": "index.js",
   "scripts": {

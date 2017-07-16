@@ -18,7 +18,8 @@ $("#submit").click(function () {
   var passwordWindow = BrowserWindow.getFocusedWindow()
   var window = new BrowserWindow({
     width: 800,
-    height: 600
+    height: 600,
+    resizable: false
   })
   window.loadURL('file://' + __dirname + '/../main/main.html');
   passwordWindow.close();

@@ -24,17 +24,30 @@ const updater = new GhReleases(options)
 let mainWindow;
 
 app.on('ready', function () {
-  var mainWindow = new BrowserWindow({
-    width: 300,
-    height: 400,
-    resizable: false
-  })
+
 
   if (!(fs.existsSync("../save.txt"))) {
     mainWindow.loadURL('file://' + __dirname + '/app/password/password.html');
+    let loadOptions = {
+      width: 300,
+      height: 400,
+      resizable: false
+    }
   } else {
-    mainWindow.loadURL('file://' + __dirname + '/app/main/main.html')
+    mainWindow.loadURL('file://' + __dirname + '/app/main/main.html');
+    let loadOptions = {
+      width: 300,
+      height: 400,
+      resizable: true
+    }
   }
+
+  var mainWindow = new BrowserWindow({
+    width: 800,
+    height: 600,
+    resizable: false
+  })
+
   mainWindow.focus();
 
   mainWindow.webContents.openDevTools()
@@ -46,7 +59,7 @@ app.on('ready', function () {
       submenu: [{
         label: 'Check For Updates',
         click: function () {
-        menuFunction.check();
+          menuFunction.check();
         }
       }]
     },

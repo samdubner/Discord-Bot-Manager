@@ -50,7 +50,8 @@ app.on('ready', function () {
 
   mainWindow.focus();
 
-  mainWindow.webContents.openDevTools()
+  //only enable when testing app
+  //mainWindow.webContents.openDevTools()
 
   const page = mainWindow.webContents;
 

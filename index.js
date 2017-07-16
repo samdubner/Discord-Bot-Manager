@@ -27,13 +27,18 @@ app.on('ready', function () {
 
 
   if (!(fs.existsSync("../save.txt"))) {
-    mainWindow.loadURL('file://' + __dirname + '/app/password/password.html');
-    let loadOptions = {
+    var mainWindow = new BrowserWindow({
       width: 300,
       height: 400,
       resizable: false
-    }
+    })
+    mainWindow.loadURL('file://' + __dirname + '/app/password/password.html');
   } else {
+    var mainWindow = new BrowserWindow({
+      width: 800,
+      height: 600,
+      resizable: false
+    })
     mainWindow.loadURL('file://' + __dirname + '/app/main/main.html');
     let loadOptions = {
       width: 300,
@@ -41,12 +46,6 @@ app.on('ready', function () {
       resizable: true
     }
   }
-
-  var mainWindow = new BrowserWindow({
-    width: 800,
-    height: 600,
-    resizable: false
-  })
 
   mainWindow.focus();
 

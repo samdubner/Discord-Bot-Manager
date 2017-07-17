@@ -29,7 +29,7 @@ let mainWindow;
 app.on('ready', function () {
 
 
-  if (!(fs.existsSync("../save.txt"))) {
+  if (!(fs.existsSync("./save.txt"))) {
     var mainWindow = new BrowserWindow({
       width: 300,
       height: 400,

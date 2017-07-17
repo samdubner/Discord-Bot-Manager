@@ -12,7 +12,7 @@ var online = false;
 
 $("#start").click(function () {
     if (online == false) {
-        var string = fs.readFileSync('../save.txt', 'utf8')
+        var string = fs.readFileSync('./save.txt', 'utf8')
         var object = JSON.parse(string)
         var key = object.key;
         console.log(key);

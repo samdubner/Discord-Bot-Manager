@@ -12,7 +12,7 @@ $("#submit").click(function () {
 
   var string = JSON.stringify(key)
 
-  fs.writeFile('../save.txt', string, function (err) {
+  fs.writeFile('./save.txt', string, function (err) {
     if (err) throw err;
   });
   var passwordWindow = BrowserWindow.getFocusedWindow()

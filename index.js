@@ -4,8 +4,11 @@ const BrowserWindow = electron.BrowserWindow
 const dialog = electron.dialog
 const Menu = electron.Menu
 
-//function that were moved to a different file to reduce clutter
-const menuFunction = require('./app/menuFunctions.js')
+//moved the menu and the functions that belong with it 
+//to a different file to reduce clutter
+const menu = require('./app/menu.js')
+
+const template = menu.array();
 
 //to check if key.txt exists
 const fs = require('fs')
@@ -53,26 +56,6 @@ app.on('ready', function () {
   //mainWindow.webContents.openDevTools()
 
   const page = mainWindow.webContents;
-
-  const template = [{
-      label: 'File',
-      submenu: [{
-        label: 'Check For Updates',
-        click: function () {
-          menuFunction.check();
-        }
-      }]
-    },
-    {
-      label: 'Edit',
-      submenu: [{
-        label: 'Change Bot Key',
-        click: function () {
-          menuFunction.change();
-        }
-      }]
-    }
-  ]
 
   const menu = Menu.buildFromTemplate(template)
   Menu.setApplicationMenu(menu)

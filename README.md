@@ -1,1 +1,1 @@
-# DiscordBot-App
+# Discord-Bot-Manager

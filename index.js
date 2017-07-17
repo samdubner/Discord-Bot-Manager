@@ -74,6 +74,7 @@ app.on('ready', function () {
           message: 'A new update is available, would you like to download it and restart?'
         }, function (response) {
           if (response === 0) { // Runs the following if 'Yes' is clicked
+            mainWindow.close();
             downloadUpdate();
           }
         })

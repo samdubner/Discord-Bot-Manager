@@ -89,6 +89,7 @@ app.on('ready', function () {
     updater.on('update-downloaded', (info) => {
       // Restart the app and install the update
       updater.install()
+
     })
 
     // Access electrons autoUpdater

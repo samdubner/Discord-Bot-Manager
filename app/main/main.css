@@ -33,3 +33,27 @@
     background-color: white !important;
     background-color: white !important;
 }
+
+.text-display {
+    margin-top: 1em;
+    margin-left: 1em;
+    margin-right: 1em;
+    background-color: white;
+    border: 0.063em solid black;
+    height: 25em;
+    width: 22em;
+    overflow-y: scroll;
+}
+
+.channel {
+    color:black;
+}
+
+.server-container {
+    width: auto;
+    text-align: center;
+}
+
+.server {
+    color: black;
+}

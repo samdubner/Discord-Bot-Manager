@@ -8,14 +8,32 @@ const fs = require('fs')
 
 var online = false;
 
-
+bot.on('ready', function () {
+    bot.guilds.forEach(function (server) {
+        var serverLabel = $(document.createElement('h3'));
+        var serverContainer = $(document.createElement('div'));
+        serverContainer.addClass('server-container')
+        serverLabel.html(server.name)
+        serverLabel.addClass('server')
+        $('.text-display').append(serverContainer)
+        $(serverContainer).append(serverLabel)
+        server.channels.forEach(function (channel) {
+            if (channel.type == "text") {
+                console.log(channel.name)
+                var message = $(document.createElement('p'))
+                message.addClass("channel")
+                message.html("#" + channel.name);
+                $(".text-display").append(message)
+            }
+        })
+    })
+})
 
 $("#start").click(function () {
     if (online == false) {
         var string = fs.readFileSync('../save.txt', 'utf8')
         var object = JSON.parse(string)
         var key = object.key;
-        console.log(key);
         bot.login(key);
         online = true;
     } else {

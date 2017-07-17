@@ -2,6 +2,9 @@ const electron = require('electron')
 const app = electron.app;
 const dialog = electron.dialog;
 
+//to get the version number of the app
+const pckg = require("../package.json")
+
 //to change the bot key
 const fs = require('fs')
 
@@ -75,6 +78,17 @@ function change() {
         .catch(console.error);
 }
 
+function about() {
+    var message = "Version: " + pckg.version + "\n"
+
+    dialog.showMessageBox({
+        type: 'info',
+        buttons: ['Ok'],
+        title: 'Discord Bot App',
+        message: message
+    })
+}
+
 module.exports = {
     array: function () {
 
@@ -84,6 +98,12 @@ module.exports = {
                         label: 'Check For Updates',
                         click: function () {
                             check();
+                        }
+                    },
+                    {
+                        label: 'About',
+                        click: function () {
+                            about();
                         }
                     },
                     {

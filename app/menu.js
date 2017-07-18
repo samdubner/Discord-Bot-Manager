@@ -1,6 +1,7 @@
 const electron = require('electron')
 const app = electron.app;
 const dialog = electron.dialog;
+const BrowserWindow = electron.BrowserWindow
 
 //to get the version number of the app
 const pckg = require("../package.json")
@@ -89,6 +90,11 @@ function about() {
     })
 }
 
+function openConsole() {
+    var focusedWindow = BrowserWindow.getFocusedWindow();
+    focusedWindow.webContents.openDevTools()
+}
+
 module.exports = {
     array: function () {
 
@@ -120,6 +126,15 @@ module.exports = {
                     label: 'Change Bot Key',
                     click: function () {
                         change();
+                    }
+                }]
+            },
+            {
+                label: 'Window',
+                submenu: [{
+                    label: 'Open Console',
+                    click: function () {
+                        openConsole();
                     }
                 }]
             }

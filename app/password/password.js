@@ -3,12 +3,12 @@ const BrowserWindow = remote.BrowserWindow;
 
 const fs = require('fs')
 
-
-
-$("#submit").click(function () {
+function submitToken() {
   var input = $("#password-box").val();
 
-  var key = {"key":input};
+  var key = {
+    "key": input
+  };
 
   var string = JSON.stringify(key)
 
@@ -24,4 +24,23 @@ $("#submit").click(function () {
   window.loadURL('file://' + __dirname + '/../main/main.html');
   passwordWindow.close();
 
+}
+
+$("#submit").click(function () {
+  if ($("#password-box").val() == "") {
+    alert("You cannot submit a blank for your token");
+    return;
+  }
+  submitToken()
+});
+
+$('input[type=text]').on('keydown', function (e) {
+  if (e.which == 13) {
+    e.preventDefault();
+    if ($("#password-box").val() == "") {
+      alert("You cannot submit a blank for your token");
+      return;
+    }
+    submitToken();
+  }
 });

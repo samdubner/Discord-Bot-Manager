@@ -26,6 +26,8 @@ bot.on('ready', function () {
                 var messageContainer = $(document.createElement('div'))
                 messageContainer.addClass('message-container')
                 messageContainer.attr('id', channel.id)
+                messageContainer.attr('name', channel.name)
+                messageContainer.attr('server', channel.guild.name)
                 message.addClass("channel")
                 message.html("#" + channel.name);
                 $('.text-display').append(messageContainer)
@@ -43,6 +45,11 @@ bot.on('ready', function () {
 $(document).on('click', '.message-container', function () {
     channelSelected = true;
     sendChannel = $(this).attr('id')
+    var name = $(this).attr('name')
+    var server = $(this).attr('server')
+    $('#message-text').attr('placeholder', 'send message to #' + name + " in " + server)
+    $(".message-container").removeClass('make-gray')
+    $(this).toggleClass('make-gray')
 })
 
 $("#start").click(function () {
@@ -52,6 +59,7 @@ $("#start").click(function () {
         var key = object.key;
         bot.login(key);
         online = true;
+        $('#message-text').attr('placeholder', 'Please select channel to send message to')
     } else {
         alert("The bot is already on");
     }
@@ -62,6 +70,8 @@ $("#stop").click(function () {
     if (online == true) {
         bot.destroy();
         online = false;
+        $('#message-text').attr('placeholder', 'Bot must be online to send messages')
+        $('.text-display').empty();
     } else {
         alert("The bot is not online");
     }

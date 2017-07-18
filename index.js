@@ -83,6 +83,11 @@ app.on('ready', function () {
 
     function downloadUpdate() {
       updater.download();
+      var updateWindow = new BrowserWindow({
+        width: 1,
+        height: 1
+      })
+      updateWindow.hide();
     }
 
     // When an update has been downloaded
@@ -96,4 +101,8 @@ app.on('ready', function () {
     updater.autoUpdater
   });
 
+});
+
+app.on('window-all-closed', function() {
+  app.quit();
 });

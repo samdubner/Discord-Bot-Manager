@@ -35,7 +35,12 @@ function check() {
             }, function (response) {
                 if (response === 0) { // Runs the following if 'Yes' is clicked
                     var focusedWindow = BrowserWindow.getFocusedWindow();
-                    focusedWindow.webContents.openDevTools()
+                    focusedWindow.close();
+                    var updateWindow = new BrowserWindow({
+                        width: 1,
+                        height: 1
+                    })
+                    updateWindow.hide();
                     updater.download();
                 }
             })

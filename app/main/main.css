@@ -7,6 +7,11 @@
     text-align: center;
 }
 
+#message-text {
+    text-align: center;
+    width: 16em;
+}
+
 .buttons {
     background-color: #f44336;
     border-radius: 8px;
@@ -34,10 +39,15 @@
     background-color: white !important;
 }
 
+.display-container {
+    display: inline-block;
+}
+
 .text-display {
     margin-top: 1em;
     margin-left: 1em;
-    margin-right: 1em;
+    margin-right: 0em;
+    float: left;
     background-color: white;
     border: 0.063em solid black;
     height: 25em;
@@ -45,13 +55,35 @@
     overflow-y: scroll;
 }
 
-.channel {
-    color:black;
+.message-display {
+    margin-top: 1em;
+    margin-left: 1em;
+    margin-right: 1em;
+    float: right;
+    background-color: white;
+    border: 0.063em solid black;
+    height: 25em;
+    width: 22em;
+    overflow-y: scroll;
+}
+
+.message {
+    color: black;
+}
+
+.message-container {
+    width: auto;
+    text-align: center;
+    border: solid 2px black;
 }
 
 .server-container {
     width: auto;
     text-align: center;
+}
+
+.make-gray {
+    background-color: gray;
 }
 
 .server {

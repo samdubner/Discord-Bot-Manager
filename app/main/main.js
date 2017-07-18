@@ -8,6 +8,9 @@ const fs = require('fs')
 
 var online = false;
 
+var channelSelected = false;
+var sendChannel;
+
 bot.on('ready', function () {
     bot.guilds.forEach(function (server) {
         var serverLabel = $(document.createElement('h3'));
@@ -19,14 +22,27 @@ bot.on('ready', function () {
         $(serverContainer).append(serverLabel)
         server.channels.forEach(function (channel) {
             if (channel.type == "text") {
-                console.log(channel.name)
                 var message = $(document.createElement('p'))
+                var messageContainer = $(document.createElement('div'))
+                messageContainer.addClass('message-container')
+                messageContainer.attr('id', channel.id)
                 message.addClass("channel")
                 message.html("#" + channel.name);
-                $(".text-display").append(message)
+                $('.text-display').append(messageContainer)
+                $(messageContainer).append(message)
             }
         })
     })
+})
+
+// function changeColor() {
+//     console.log("clicked")
+//     $(this).toggleClass('make-gray');
+// }
+
+$(document).on('click', '.message-container', function () {
+    channelSelected = true;
+    sendChannel = $(this).attr('id')
 })
 
 $("#start").click(function () {
@@ -59,8 +75,12 @@ $("#send").click(function () {
     } else if (document.getElementById("message-text").value == "") {
         alert("You cannot send a blank message");
         return;
+    } else if (channelSelected == false) {
+        alert("You must select a channel to send a message in")
+        return;
     }
-    bot.channels.get("284565341869309962").send(document.getElementById("message-text").value);
+
+    bot.channels.get(sendChannel).send(document.getElementById("message-text").value);
     document.getElementById("message-text").value = "";
 
 })

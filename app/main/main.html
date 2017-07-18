@@ -13,16 +13,19 @@
     <input type="button" class="buttons" id="stop" value="Stop"></input>
     <br>
     <br>
-    <input type="text" id="message-text" placeholder="message to send in general"></input>
+    <input type="text" id="message-text" placeholder="send message in selected channel"></input>
     <input type="button" class="buttons" id="send" value="send"></input>
   </div>
-  <div class="text-display">
-
+  <div class="display-container">
+    <div class="text-display">
+    </div>
+    <!--<div class="message-display">
+    </div>-->
   </div>
+
 </body>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js" onload="window.$ = window.jQuery = module.exports;"></script>
 <script>
-  // You can also require other files to run in this process
   require('./main.js')
 </script>
 

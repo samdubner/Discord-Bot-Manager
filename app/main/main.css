@@ -89,3 +89,24 @@
 .server {
     color: black;
 }
+
+.message-holder {
+    border-top: 2px solid black;
+    border-bottom: 2px solid black;
+    display: inline-block;
+    overflow: hidden;
+    position: relative;
+    padding-left: 0.5em;
+    width: auto;
+    height: auto;
+    text-align: left;
+    line-height: 2em;
+    background-color: white;
+    max-width: calc(100% - 0.5em);
+    word-wrap: break-word;
+}
+
+.message-received {
+    margin-top: 0;
+    margin-bottom: 0;
+}

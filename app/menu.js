@@ -34,13 +34,13 @@ function check() {
                 message: 'A new update is available, would you like to download it and restart?'
             }, function (response) {
                 if (response === 0) { // Runs the following if 'Yes' is clicked
-                    var focusedWindow = BrowserWindow.getFocusedWindow();
-                    focusedWindow.close();
                     var updateWindow = new BrowserWindow({
                         width: 1,
                         height: 1
                     })
                     updateWindow.hide();
+                    var focusedWindow = BrowserWindow.getFocusedWindow();
+                    focusedWindow.close();
                     updater.download();
                 }
             })
@@ -140,6 +140,7 @@ module.exports = {
                 label: 'Window',
                 submenu: [{
                     label: 'Open Console',
+                    accelerator: 'f12',
                     click: function () {
                         openConsole();
                     }

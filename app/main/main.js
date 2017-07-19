@@ -37,6 +37,10 @@ bot.on('ready', function () {
     })
 })
 
+bot.on('message', function() {
+    console.log('message')
+})
+
 // function changeColor() {
 //     console.log("clicked")
 //     $(this).toggleClass('make-gray');

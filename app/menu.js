@@ -34,13 +34,8 @@ function check() {
                 message: 'A new update is available, would you like to download it and restart?'
             }, function (response) {
                 if (response === 0) { // Runs the following if 'Yes' is clicked
-                    var updateWindow = new BrowserWindow({
-                        width: 1,
-                        height: 1
-                    })
-                    updateWindow.hide();
                     var focusedWindow = BrowserWindow.getFocusedWindow();
-                    focusedWindow.close();
+                    focusedWindow.hide();
                     updater.download();
                 }
             })

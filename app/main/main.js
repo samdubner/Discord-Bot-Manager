@@ -41,7 +41,12 @@ bot.on('message', (message) => {
             var messageR = $(document.createElement("p"));
             messageR.addClass("message-received");
             messageC.addClass("message-holder");
-            messageR.html(message.content);
+            if (message.member.nickname == null) {
+                var name = message.author.username;
+            } else {
+                var name = message.member.nickname
+            }
+            messageR.html(name + ": " + message.content);
             $(".message-display").append(messageC);
             $(messageC).append(messageR);
             $(".message-display").scrollTop($(".message-display")[0].scrollHeight);
@@ -56,7 +61,12 @@ function reverseSend(messages) {
         var messageR = $(document.createElement("p"));
         messageR.addClass("message-received");
         messageC.addClass("message-holder");
-        messageR.html(messageF.content);
+        if (messageF.member.nickname == null) {
+            var name = messageF.author.username;
+        } else {
+            var name = messageF.member.nickname;
+        }
+        messageR.html(name + ": " + messageF.content);
         $(".message-display").append(messageC);
         $(messageC).append(messageR);
     })
@@ -79,6 +89,7 @@ $(document).on('click', '.message-container', function () {
     var clickedChannel = $(this).find(".channel")
     $(".channel").removeClass('make-gray')
     clickedChannel.addClass('make-gray')
+    $('.message-display').empty();
     getMessages(sendChannel);
 })
 
@@ -87,9 +98,20 @@ $("#start").click(function () {
         var string = fs.readFileSync('../save.txt', 'utf8')
         var object = JSON.parse(string)
         var key = object.key;
-        bot.login(key);
-        online = true;
-        $('#message-text').attr('placeholder', 'Please select channel to send message to')
+        var error = false;
+        bot.login(key).catch(err => {
+            alert("The bot was unable to login, please check your internet connection, and make sure your bot key is correct")
+            console.error(err.stack)
+            error = true;
+            return;
+        });
+        console.log(error)
+        setTimeout(function () {
+            if (error == false) {
+                online = true;
+                $('#message-text').attr('placeholder', 'Please select channel to send message to')
+            }
+        }, 2000);
     } else {
         alert("The bot is already on");
     }
@@ -102,13 +124,14 @@ $("#stop").click(function () {
         online = false;
         $('#message-text').attr('placeholder', 'Bot must be online to send messages')
         $('.text-display').empty();
+        $('.message-display').empty();
     } else {
         alert("The bot is not online");
     }
     return;
 })
 
-$('.message-text').on('keydown', function (e) {
+$('#message-text').on('keydown', function (e) {
     if (e.which == 13) {
         e.preventDefault();
         if (online == false) {
@@ -123,6 +146,6 @@ $('.message-text').on('keydown', function (e) {
         }
 
         bot.channels.get(sendChannel).send(document.getElementById("message-text").value);
-        document.getElementById("message-text").value = "";
+        $("#message-text").val("");
     }
 })

@@ -20,8 +20,13 @@ body {
     border-radius: 3px;
     background-color: #424549;
     border: 2px solid #686a6e;
+    color: #bebfc1;
     text-align: center;
     width: 20em;
+}
+
+#message-text:focus {
+    color: #bebfc1;
 }
 
 .buttons {
@@ -100,7 +105,7 @@ body {
 }
 
 .make-gray {
-    color: #4a433a;
+    color: #faa61a;
 }
 
 .server {
@@ -130,7 +135,7 @@ body {
 }
 
 ::-webkit-scrollbar {
-    width: 14px;
+    width: 10px;
 }
 
 ::-webkit-scrollbar-track {

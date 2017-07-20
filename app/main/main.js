@@ -1,6 +1,3 @@
-// This file is required by the index.html file and will
-// be executed in the renderer process for that window.
-// All of the Node.js APIs are available in this process.
 const Discord = require('discord.js');
 const bot = new Discord.Client();
 
@@ -37,23 +34,52 @@ bot.on('ready', function () {
     })
 })
 
-bot.on('message', function() {
-    console.log('message')
+bot.on('message', (message) => {
+    if (channelSelected == true) {
+        if (message.channel.id == sendChannel) {
+            var messageC = $(document.createElement("div"));
+            var messageR = $(document.createElement("p"));
+            messageR.addClass("message-received");
+            messageC.addClass("message-holder");
+            messageR.html(message.content);
+            $(".message-display").append(messageC);
+            $(messageC).append(messageR);
+            $(".message-display").scrollTop($(".message-display")[0].scrollHeight);
+        }
+    }
 })
 
-// function changeColor() {
-//     console.log("clicked")
-//     $(this).toggleClass('make-gray');
-// }
+function reverseSend(messages) {
+    var messagesReverse = new Map(Array.from(messages).reverse())
+    messagesReverse.forEach(function (messageF) {
+        var messageC = $(document.createElement("div"));
+        var messageR = $(document.createElement("p"));
+        messageR.addClass("message-received");
+        messageC.addClass("message-holder");
+        messageR.html(messageF.content);
+        $(".message-display").append(messageC);
+        $(messageC).append(messageR);
+    })
+    $(".message-display").scrollTop($(".message-display")[0].scrollHeight);
+}
+
+function getMessages(id) {
+    var channelR = bot.channels.get(id);
+    channelR.fetchMessages({
+        limit: 100
+    }).then(messages => reverseSend(messages));
+}
 
 $(document).on('click', '.message-container', function () {
     channelSelected = true;
     sendChannel = $(this).attr('id')
     var name = $(this).attr('name')
     var server = $(this).attr('server')
-    $('#message-text').attr('placeholder', 'send message to #' + name + " in " + server)
-    $(".message-container").removeClass('make-gray')
-    $(this).toggleClass('make-gray')
+    $('#message-text').attr('placeholder', 'Message #' + name + " in " + server)
+    var clickedChannel = $(this).find(".channel")
+    $(".channel").removeClass('make-gray')
+    clickedChannel.addClass('make-gray')
+    getMessages(sendChannel);
 })
 
 $("#start").click(function () {
@@ -82,19 +108,21 @@ $("#stop").click(function () {
     return;
 })
 
-$("#send").click(function () {
-    if (online == false) {
-        alert("The bot must be online for you to send a message");
-        return;
-    } else if (document.getElementById("message-text").value == "") {
-        alert("You cannot send a blank message");
-        return;
-    } else if (channelSelected == false) {
-        alert("You must select a channel to send a message in")
-        return;
+$('.message-text').on('keydown', function (e) {
+    if (e.which == 13) {
+        e.preventDefault();
+        if (online == false) {
+            alert("The bot must be online for you to send a message");
+            return;
+        } else if (document.getElementById("message-text").value == "") {
+            alert("You cannot send a blank message");
+            return;
+        } else if (channelSelected == false) {
+            alert("You must select a channel to send a message in")
+            return;
+        }
+
+        bot.channels.get(sendChannel).send(document.getElementById("message-text").value);
+        document.getElementById("message-text").value = "";
     }
-
-    bot.channels.get(sendChannel).send(document.getElementById("message-text").value);
-    document.getElementById("message-text").value = "";
-
 })

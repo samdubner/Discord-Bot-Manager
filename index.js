@@ -40,14 +40,10 @@ app.on('ready', function () {
     var mainWindow = new BrowserWindow({
       width: 800,
       height: 600,
-      resizable: false
+      resizable: false //,
+      //frame: false
     })
     mainWindow.loadURL('file://' + __dirname + '/app/main/main.html');
-    let loadOptions = {
-      width: 300,
-      height: 400,
-      resizable: true
-    }
   }
 
   mainWindow.focus();

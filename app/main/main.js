@@ -34,22 +34,41 @@ bot.on('ready', function () {
     })
 })
 
+function appendMessage(message) {
+    var messageC = $(document.createElement("div"));
+    var messageA = $(document.createElement("p"));
+    var br = $(document.createElement("br"))
+    var messageR = $(document.createElement("p"));
+    var pfp = $(document.createElement("img"));
+    pfp.attr("src", message.author.avatarURL);
+    pfp.addClass("pfp")
+    messageA.addClass("message-received");
+    var colorS = message.member.highestRole.color;
+    var colorN = parseInt(colorS)
+    var hexString = colorN.toString(16);
+    console.log(hexString)
+    messageA.css("color", "#" + hexString)
+    messageR.addClass("message-received");
+    messageC.addClass("message-holder");
+    if (message.member.nickname == null) {
+        var name = message.author.username;
+    } else {
+        var name = message.member.nickname
+    }
+    messageA.html(name + ":");
+    messageR.html(message.content);
+    $(".message-display").append(messageC);
+    $(messageC).append(pfp)
+    $(messageC).append(messageA);
+    $(messageC).append(br);
+    $(messageC).append(messageR);
+    $(".message-display").scrollTop($(".message-display")[0].scrollHeight);
+}
+
 bot.on('message', (message) => {
     if (channelSelected == true) {
         if (message.channel.id == sendChannel) {
-            var messageC = $(document.createElement("div"));
-            var messageR = $(document.createElement("p"));
-            messageR.addClass("message-received");
-            messageC.addClass("message-holder");
-            if (message.member.nickname == null) {
-                var name = message.author.username;
-            } else {
-                var name = message.member.nickname
-            }
-            messageR.html(name + ": " + message.content);
-            $(".message-display").append(messageC);
-            $(messageC).append(messageR);
-            $(".message-display").scrollTop($(".message-display")[0].scrollHeight);
+            appendMessage(message);
         }
     }
 })
@@ -57,20 +76,9 @@ bot.on('message', (message) => {
 function reverseSend(messages) {
     var messagesReverse = new Map(Array.from(messages).reverse())
     messagesReverse.forEach(function (messageF) {
-        var messageC = $(document.createElement("div"));
-        var messageR = $(document.createElement("p"));
-        messageR.addClass("message-received");
-        messageC.addClass("message-holder");
-        if (messageF.member.nickname == null) {
-            var name = messageF.author.username;
-        } else {
-            var name = messageF.member.nickname;
-        }
-        messageR.html(name + ": " + messageF.content);
-        $(".message-display").append(messageC);
-        $(messageC).append(messageR);
+        appendMessage(messageF);
     })
-    $(".message-display").scrollTop($(".message-display")[0].scrollHeight);
+
 }
 
 function getMessages(id) {
@@ -105,7 +113,6 @@ $("#start").click(function () {
             error = true;
             return;
         });
-        console.log(error)
         setTimeout(function () {
             if (error == false) {
                 online = true;

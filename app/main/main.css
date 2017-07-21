@@ -130,8 +130,17 @@ body {
 
 .message-received {
     color: #b9bab6;
-    margin-top: 0;
+    display: inline-block;
+    margin-top: -1em !important;
     margin-bottom: 0;
+}
+
+.pfp {
+    display: inline-block;
+    border-radius: 50%;
+    width: 20px;
+    margin-right: 0.5em;
+    margin-top: 1em;
 }
 
 ::-webkit-scrollbar {

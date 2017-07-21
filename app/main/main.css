@@ -1,5 +1,5 @@
 html {
-  -webkit-tap-highlight-color:transparent;
+    -webkit-tap-highlight-color: transparent;
 }
 
 body {
@@ -126,6 +126,12 @@ body {
     line-height: 2em;
     max-width: calc(100% - 0.5em);
     word-wrap: break-word;
+}
+
+.message-author {
+    display: inline-block;
+    margin-top: -1em !important;
+    margin-bottom: 0;
 }
 
 .message-received {

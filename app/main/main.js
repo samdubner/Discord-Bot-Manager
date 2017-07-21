@@ -34,6 +34,10 @@ bot.on('ready', function () {
     })
 })
 
+function d2h(decimal) {
+    return (+decimal).toString(16).toUpperCase();
+}
+
 function appendMessage(message) {
     var messageC = $(document.createElement("div"));
     var messageA = $(document.createElement("p"));
@@ -42,12 +46,10 @@ function appendMessage(message) {
     var pfp = $(document.createElement("img"));
     pfp.attr("src", message.author.avatarURL);
     pfp.addClass("pfp")
-    messageA.addClass("message-received");
-    var colorS = message.member.highestRole.color;
-    var colorN = parseInt(colorS)
-    var hexString = colorN.toString(16);
-    console.log(hexString)
-    messageA.css("color", "#" + hexString)
+    messageA.addClass("message-author");
+    var colorS = message.member.displayHexColor;
+    console.log(colorS)
+    messageA.css("color", colorS)
     messageR.addClass("message-received");
     messageC.addClass("message-holder");
     if (message.member.nickname == null) {

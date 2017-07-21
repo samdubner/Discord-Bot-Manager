@@ -48,6 +48,9 @@ function appendMessage(message) {
     pfp.addClass("pfp")
     messageA.addClass("message-author");
     var colorS = message.member.displayHexColor;
+    if (colorS == "#000000") {
+        colorS = "#a6a6a6"
+    }
     console.log(colorS)
     messageA.css("color", colorS)
     messageR.addClass("message-received");

@@ -93,6 +93,18 @@ function getMessages(id) {
     }).then(messages => reverseSend(messages));
 }
 
+$("#test").on('click', function () {
+    var Sudoer = require('electron-sudo').default;
+    var sudoer = new Sudoer(options);
+    sudoer.spawn('echo', ['$PARAM'], {
+        env: {
+            PARAM: 'VALUE'
+        }
+    }).then(function (cp) {
+
+    });
+})
+
 $(document).on('click', '.message-container', function () {
     channelSelected = true;
     sendChannel = $(this).attr('id')

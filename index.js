@@ -35,8 +35,8 @@ app.on('ready', function () {
 
   if (!(fs.existsSync(app.getPath("appData") + "/DBM/save.txt"))) {
     var mainWindow = new BrowserWindow({
-      width: 300,
-      height: 400,
+      width: 750,
+      height: 200,
       resizable: false
     })
     mainWindow.loadURL('file://' + __dirname + '/app/password/password.html');

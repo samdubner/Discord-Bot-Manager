@@ -44,9 +44,9 @@ function d2h(decimal) {
 
 function appendMessage(message) {
     var messageC = $(document.createElement("div"));
-    var messageA = $(document.createElement("p"));
+    var messageA = $(document.createElement("span"));
     var br = $(document.createElement("br"))
-    var messageR = $(document.createElement("p"));
+    var messageR = $(document.createElement("span"));
     var pfp = $(document.createElement("img"));
     var i = $(document.createElement("i"));
     i.addClass("material-icons md-inactive md-dark md-18");
@@ -59,7 +59,6 @@ function appendMessage(message) {
     if (colorS == "#000000") {
         colorS = "#a6a6a6"
     }
-    console.log(colorS)
     messageA.css("color", colorS)
     messageR.addClass("message-received");
     messageC.addClass("message-holder");

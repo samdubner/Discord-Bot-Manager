@@ -130,14 +130,15 @@ body {
 
 .message-author {
     display: inline-block;
-    margin-top: -1em !important;
-    margin-bottom: 0;
+    position: relative;
+    top: -4px;
+    padding: 0;
+    /* margin-bottom: 0; */
 }
 
 .message-received {
     color: #b9bab6;
     display: inline-block;
-    margin-top: -1em !important;
     margin-bottom: 0;
 }
 

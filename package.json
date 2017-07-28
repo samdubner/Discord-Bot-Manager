@@ -25,6 +25,7 @@
     "discord.js": "^11.1.0",
     "electron-gh-releases": "^2.0.4",
     "electron-prompt": "^0.2.0",
+    "fast-deep-equal": "^1.0.0",
     "fs": "0.0.1-security"
   }
 }

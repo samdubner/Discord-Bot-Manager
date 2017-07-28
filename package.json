@@ -1,6 +1,6 @@
 {
   "name": "DBM",
-  "version": "1.4.2",
+  "version": "1.5.0",
   "description": "A basic application using electron",
   "main": "index.js",
   "scripts": {

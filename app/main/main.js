@@ -48,6 +48,10 @@ function appendMessage(message) {
     var br = $(document.createElement("br"))
     var messageR = $(document.createElement("p"));
     var pfp = $(document.createElement("img"));
+    var i = $(document.createElement("i"));
+    i.addClass("material-icons md-inactive md-dark md-18");
+    i.attr("id", message.id);
+    i.html("delete");
     pfp.attr("src", message.author.avatarURL);
     pfp.addClass("pfp")
     messageA.addClass("message-author");
@@ -69,6 +73,7 @@ function appendMessage(message) {
     $(".message-display").append(messageC);
     $(messageC).append(pfp)
     $(messageC).append(messageA);
+    $(messageC).append(i);
     $(messageC).append(br);
     $(messageC).append(messageR);
     $(".message-display").scrollTop($(".message-display")[0].scrollHeight);
@@ -93,7 +98,7 @@ function reverseSend(messages) {
 function getMessages(id) {
     var channelR = bot.channels.get(id);
     channelR.fetchMessages({
-        limit: 100
+        limit: 50
     }).then(messages => reverseSend(messages));
 }
 
@@ -108,6 +113,12 @@ $(document).on('click', '.message-container', function () {
     clickedChannel.addClass('make-gray')
     $('.message-display').empty();
     getMessages(sendChannel);
+})
+
+$(document).on('click', '.material-icons', function () {
+    var messageID = $(this).attr("id");
+    bot.channels.get(sendChannel).fetchMessage(messageID).then(message => message.delete());
+    $(this).parent().remove();
 })
 
 $("#start").click(function () {

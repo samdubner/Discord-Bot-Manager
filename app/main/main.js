@@ -1,6 +1,9 @@
 const Discord = require('discord.js');
 const bot = new Discord.Client();
 
+const remote = require('electron').remote;
+const app = remote.app;
+
 const fs = require('fs')
 
 var online = false;
@@ -9,6 +12,7 @@ var channelSelected = false;
 var sendChannel;
 
 bot.on('ready', function () {
+    console.log("Ready")
     bot.guilds.forEach(function (server) {
         var serverLabel = $(document.createElement('h3'));
         var serverContainer = $(document.createElement('div'));
@@ -93,18 +97,6 @@ function getMessages(id) {
     }).then(messages => reverseSend(messages));
 }
 
-$("#test").on('click', function () {
-    var Sudoer = require('electron-sudo').default;
-    var sudoer = new Sudoer(options);
-    sudoer.spawn('echo', ['$PARAM'], {
-        env: {
-            PARAM: 'VALUE'
-        }
-    }).then(function (cp) {
-
-    });
-})
-
 $(document).on('click', '.message-container', function () {
     channelSelected = true;
     sendChannel = $(this).attr('id')
@@ -120,9 +112,10 @@ $(document).on('click', '.message-container', function () {
 
 $("#start").click(function () {
     if (online == false) {
-        var string = fs.readFileSync('../save.txt', 'utf8')
+        var string = fs.readFileSync(app.getPath("appData") + "/DBM/save.txt", 'utf8')
         var object = JSON.parse(string)
         var key = object.key;
+        console.log(key)
         var error = false;
         bot.login(key).catch(err => {
             alert("The bot was unable to login, please check your internet connection, and make sure your bot key is correct")

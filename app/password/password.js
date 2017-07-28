@@ -1,5 +1,6 @@
 const remote = require('electron').remote;
 const BrowserWindow = remote.BrowserWindow;
+const app = remote.app;
 
 const fs = require('fs')
 
@@ -12,9 +13,7 @@ function submitToken() {
 
   var string = JSON.stringify(key)
 
-  fs.writeFile('../save.txt', string, function (err) {
-    if (err) throw err;
-  });
+  fs.writeFileSync(app.getPath("appData") + "/DBM/save.txt", string);
   var passwordWindow = BrowserWindow.getFocusedWindow()
   var window = new BrowserWindow({
     width: 800,

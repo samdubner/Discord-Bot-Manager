@@ -3,9 +3,6 @@ const app = electron.app;
 const dialog = electron.dialog;
 const BrowserWindow = electron.BrowserWindow
 
-//to get the version number of the app
-const pckg = require("../package.json")
-
 //to change the bot key
 const fs = require('fs')
 
@@ -65,7 +62,7 @@ function change() {
             if (response == null) {
                 return;
             } else {
-                fs.unlinkSync("../save.txt");
+                fs.unlinkSync(app.getPath("appData") + "/DBM/save.txt");
 
                 var key = {
                     "key": response
@@ -73,7 +70,7 @@ function change() {
 
                 var string = JSON.stringify(key)
 
-                fs.writeFile('../save.txt', string, function (err) {
+                fs.writeFile(app.getPath("appData") + "/DBM/save.txt", string, function (err) {
                     if (err) throw err;
                 });
             }
@@ -82,7 +79,7 @@ function change() {
 }
 
 function about() {
-    var message = "Version: " + pckg.version + "\n"
+    var message = "Version: " + app.getVersion() + "\n"
 
     dialog.showMessageBox({
         type: 'info',

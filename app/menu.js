@@ -89,6 +89,15 @@ function about() {
     })
 }
 
+function settings() {
+    let settingsWindow = new BrowserWindow({
+        width: 700,
+        height: 500,
+        resizable: false
+    })
+    settingsWindow.loadURL('file://' + __dirname + '/settings/settings.html');
+}
+
 function openConsole() {
     var focusedWindow = BrowserWindow.getFocusedWindow();
     focusedWindow.webContents.openDevTools()
@@ -111,6 +120,12 @@ module.exports = {
                             about();
                         }
                     },
+                    // {
+                    //     label: 'Settings',
+                    //     click: function () {
+                    //         settings();
+                    //     }
+                    // },
                     {
                         type: "separator"
                     },

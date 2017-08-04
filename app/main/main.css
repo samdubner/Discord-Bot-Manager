@@ -104,12 +104,20 @@ body {
     text-align: center;
 }
 
+#icon {
+    margin-top: 0;
+    margin-left: 5em;
+    margin-right: 0;
+    float: left;
+}
+
 .make-gray {
     color: #faa61a;
 }
 
 .server {
     color: #b9bab6;
+    margin-left: -3em;
 }
 
 .message-holder {

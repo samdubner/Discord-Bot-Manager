@@ -12,14 +12,18 @@ var channelSelected = false;
 var sendChannel;
 
 bot.on('ready', function () {
-    console.log("Ready")
     bot.guilds.forEach(function (server) {
         var serverLabel = $(document.createElement('h3'));
         var serverContainer = $(document.createElement('div'));
+        var icon = $(document.createElement('img'));
         serverContainer.addClass('server-container')
         serverLabel.html(server.name)
         serverLabel.addClass('server')
+        icon.attr("src", server.iconURL);
+        icon.attr("id", "icon")
+        icon.addClass("pfp");
         $('.text-display').append(serverContainer)
+        $(serverContainer).append(icon)
         $(serverContainer).append(serverLabel)
         server.channels.forEach(function (channel) {
             if (channel.type == "text") {
@@ -37,10 +41,6 @@ bot.on('ready', function () {
         })
     })
 })
-
-function d2h(decimal) {
-    return (+decimal).toString(16).toUpperCase();
-}
 
 function appendMessage(message) {
     var messageC = $(document.createElement("div"));
@@ -125,7 +125,6 @@ $("#start").click(function () {
         var string = fs.readFileSync(app.getPath("appData") + "/DBM/save.txt", 'utf8')
         var object = JSON.parse(string)
         var key = object.key;
-        console.log(key)
         var error = false;
         bot.login(key).catch(err => {
             alert("The bot was unable to login, please check your internet connection, and make sure your bot key is correct")

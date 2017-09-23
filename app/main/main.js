@@ -68,7 +68,7 @@ function appendMessage(message) {
         var name = message.member.nickname
     }
     messageA.html(name + ":");
-    messageR.html(message.content);
+    messageR.html(message.cleanContent);
     $(".message-display").append(messageC);
     $(messageC).append(pfp)
     $(messageC).append(messageA);

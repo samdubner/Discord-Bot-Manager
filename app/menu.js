@@ -79,8 +79,7 @@ function change() {
 }
 
 function about() {
-    var message = "Version: " + app.getVersion() + "\n" +
-                    app.description()
+    var message = "Version: " + app.getVersion() + "\n"
 
     dialog.showMessageBox({
         type: 'info',

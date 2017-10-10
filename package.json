@@ -1,7 +1,7 @@
 {
   "name": "DBM",
-  "version": "1.5.2",
-  "description": "A basic application using electron",
+  "version": "1.5.3",
+  "description": "A simple application to manage your discord bot's messages",
   "main": "index.js",
   "scripts": {
     "start": "electron .",

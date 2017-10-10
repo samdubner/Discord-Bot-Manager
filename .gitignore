@@ -1,5 +1,6 @@
 config.json
 save.txt
+package-lock.json
 
 # Logs
 logs

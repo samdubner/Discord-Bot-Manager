@@ -101,24 +101,25 @@ body {
 
 .server-container {
     width: auto;
-    text-align: center;
+    /* text-align: center; */
 }
 
 #icon {
     margin-top: 0;
-    margin-left: 5em;
+    margin-left: 4.5em;
     margin-right: 0;
     float: left;
+}
+
+.server {
+    color: #b9bab6;
+    margin-left: 5.5em;
 }
 
 .make-gray {
     color: #faa61a;
 }
 
-.server {
-    color: #b9bab6;
-    margin-left: -3em;
-}
 
 .message-holder {
     border-top: 1px solid #3e4146;

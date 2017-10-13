@@ -16,29 +16,16 @@ bot.on('ready', function () {
         var serverLabel = $(document.createElement('h3'));
         var serverContainer = $(document.createElement('div'));
         var icon = $(document.createElement('img'));
-        serverContainer.addClass('server-container')
-        serverLabel.html(server.name)
-        serverLabel.addClass('server')
+        serverContainer.addClass('server-container');
+        serverContainer.attr('id', server.id);
+        serverLabel.html(server.name);
+        serverLabel.addClass('server');
         icon.attr("src", server.iconURL);
-        icon.attr("id", "icon")
+        icon.attr("id", "icon");
         icon.addClass("pfp");
-        $('.text-display').append(serverContainer)
-        $(serverContainer).append(icon)
-        $(serverContainer).append(serverLabel)
-        server.channels.forEach(function (channel) {
-            if (channel.type == "text") {
-                var message = $(document.createElement('p'))
-                var messageContainer = $(document.createElement('div'))
-                messageContainer.addClass('message-container')
-                messageContainer.attr('id', channel.id)
-                messageContainer.attr('name', channel.name)
-                messageContainer.attr('server', channel.guild.name)
-                message.addClass("channel")
-                message.html("#" + channel.name);
-                $('.text-display').append(messageContainer)
-                $(messageContainer).append(message)
-            }
-        })
+        $('.text-display').append(serverContainer);
+        $(serverContainer).append(icon);
+        $(serverContainer).append(serverLabel);
     })
 })
 
@@ -100,6 +87,38 @@ function getMessages(id) {
         limit: 50
     }).then(messages => reverseSend(messages));
 }
+
+$(document).on('click', '.server-container', function (e) {
+    $('.text-display').empty();
+    $('.message-display').empty();
+    var serverId = $(this).attr('id');
+    var channels = 0;
+    let positions = [];
+
+    bot.guilds.get(serverId).channels.forEach(function (channel) {
+        if (channel.type == "text") positions.push(channel.position);
+    })
+
+    positions.forEach(function (positionF) {
+        bot.guilds.get(serverId).channels.forEach(function (channel) {
+            if (channel.position == positionF && channel.type !== "voice") {
+                var message = $(document.createElement('p'))
+                var messageContainer = $(document.createElement('div'))
+                messageContainer.addClass('message-container')
+                messageContainer.attr('id', channel.id)
+                messageContainer.attr('name', channel.name)
+                messageContainer.attr('server', channel.guild.name)
+                message.addClass("channel")
+                message.html("#" + channel.name);
+                $('.text-display').append(messageContainer)
+                $(messageContainer).append(message)
+            }
+
+        })
+
+    })
+
+})
 
 $(document).on('click', '.message-container', function () {
     channelSelected = true;

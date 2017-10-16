@@ -20,7 +20,7 @@ let options = {
 
 const updater = new GhReleases(options)
 
-
+//check for update and then ask user to restart if there is an update available
 function check() {
     updater.check((err, status) => {
         if (!err && status) {
@@ -48,6 +48,7 @@ function check() {
 
 }
 
+//change the token for the bot
 function change() {
     prompt({
             title: 'Change Bot Key',
@@ -78,6 +79,7 @@ function change() {
         .catch(console.error);
 }
 
+//the about page is just the app version 11/10
 function about() {
     var message = "Version: " + app.getVersion() + "\n"
 
@@ -89,6 +91,7 @@ function about() {
     })
 }
 
+//opens the settings page
 function settings() {
     let settingsWindow = new BrowserWindow({
         width: 700,
@@ -98,6 +101,7 @@ function settings() {
     settingsWindow.loadURL('file://' + __dirname + '/settings/settings.html');
 }
 
+//opens the developer console
 function openConsole() {
     var focusedWindow = BrowserWindow.getFocusedWindow();
     focusedWindow.webContents.openDevTools()

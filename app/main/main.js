@@ -11,6 +11,7 @@ var online = false;
 var channelSelected = false;
 var sendChannel;
 
+//loads all the guilds when the bot is ready to go
 bot.on('ready', function () {
     bot.guilds.forEach(function (server) {
         var serverLabel = $(document.createElement('h3'));
@@ -29,6 +30,7 @@ bot.on('ready', function () {
     })
 })
 
+//adds message to the text box
 function appendMessage(message) {
     var messageC = $(document.createElement("div"));
     var messageA = $(document.createElement("span"));
@@ -65,6 +67,7 @@ function appendMessage(message) {
     $(".message-display").scrollTop($(".message-display")[0].scrollHeight);
 }
 
+//adds message to text box when a message can be seen by the bot
 bot.on('message', (message) => {
     if (channelSelected == true) {
         if (message.channel.id == sendChannel) {
@@ -73,6 +76,7 @@ bot.on('message', (message) => {
     }
 })
 
+//puts the messages in reverse order since they come in newest to oldest
 function reverseSend(messages) {
     var messagesReverse = new Map(Array.from(messages).reverse())
     messagesReverse.forEach(function (messageF) {
@@ -81,6 +85,7 @@ function reverseSend(messages) {
 
 }
 
+//gets the last 50 messages from the channel when the bot is ready
 function getMessages(id) {
     var channelR = bot.channels.get(id);
     channelR.fetchMessages({
@@ -88,6 +93,7 @@ function getMessages(id) {
     }).then(messages => reverseSend(messages));
 }
 
+//shows all channels in the server that was clicked
 $(document).on('click', '.server-container', function (e) {
     $('.text-display').empty();
     $('.message-display').empty();
@@ -120,6 +126,7 @@ $(document).on('click', '.server-container', function (e) {
 
 })
 
+//shows messages in the channel that was clicked
 $(document).on('click', '.message-container', function () {
     channelSelected = true;
     sendChannel = $(this).attr('id')
@@ -133,12 +140,14 @@ $(document).on('click', '.message-container', function () {
     getMessages(sendChannel);
 })
 
+//delete message
 $(document).on('click', '.material-icons', function () {
     var messageID = $(this).attr("id");
     bot.channels.get(sendChannel).fetchMessage(messageID).then(message => message.delete());
     $(this).parent().remove();
 })
 
+//logs in the bot once the start button was clicked
 $("#start").click(function () {
     if (online == false) {
         var string = fs.readFileSync(app.getPath("appData") + "/DBM/save.txt", 'utf8')
@@ -163,6 +172,7 @@ $("#start").click(function () {
     return;
 })
 
+//logs the bot off and empties both divs
 $("#stop").click(function () {
     if (online == true) {
         bot.destroy();
@@ -176,6 +186,7 @@ $("#stop").click(function () {
     return;
 })
 
+//makes sure the bot is online before attemption to send a message
 $('#message-text').on('keydown', function (e) {
     if (e.which == 13) {
         e.preventDefault();

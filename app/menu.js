@@ -124,12 +124,12 @@ module.exports = {
                             about();
                         }
                     },
-                    // {
-                    //     label: 'Settings',
-                    //     click: function () {
-                    //         settings();
-                    //     }
-                    // },
+                    {
+                        label: 'Settings',
+                        click: function () {
+                            settings();
+                        }
+                    },
                     {
                         type: "separator"
                     },

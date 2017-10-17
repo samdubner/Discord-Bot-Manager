@@ -11,8 +11,7 @@ var online = false;
 var channelSelected = false;
 var sendChannel;
 
-//loads all the guilds when the bot is ready to go
-bot.on('ready', function () {
+function getServers() {
     bot.guilds.forEach(function (server) {
         var serverLabel = $(document.createElement('h3'));
         var serverContainer = $(document.createElement('div'));
@@ -28,6 +27,11 @@ bot.on('ready', function () {
         $(serverContainer).append(icon);
         $(serverContainer).append(serverLabel);
     })
+}
+
+//loads all the guilds when the bot is ready to go
+bot.on('ready', function () {
+    getServers();
 })
 
 //adds message to the text box
@@ -82,7 +86,7 @@ function reverseSend(messages) {
     messagesReverse.forEach(function (messageF) {
         appendMessage(messageF);
     })
-
+    
 }
 
 //gets the last 50 messages from the channel when the bot is ready
@@ -97,14 +101,15 @@ function getMessages(id) {
 $(document).on('click', '.server-container', function (e) {
     $('.text-display').empty();
     $('.message-display').empty();
+    $('#back').show();
     var serverId = $(this).attr('id');
     var channels = 0;
     let positions = [];
-
+    
     bot.guilds.get(serverId).channels.forEach(function (channel) {
         if (channel.type == "text") positions.push(channel.position);
     })
-
+    
     positions.forEach(function (positionF) {
         bot.guilds.get(serverId).channels.forEach(function (channel) {
             if (channel.position == positionF && channel.type !== "voice") {
@@ -119,11 +124,11 @@ $(document).on('click', '.server-container', function (e) {
                 $('.text-display').append(messageContainer)
                 $(messageContainer).append(message)
             }
-
+            
         })
-
+        
     })
-
+    
 })
 
 //shows messages in the channel that was clicked
@@ -138,6 +143,13 @@ $(document).on('click', '.message-container', function () {
     clickedChannel.addClass('make-gray')
     $('.message-display').empty();
     getMessages(sendChannel);
+})
+
+$(document).on('click', '#back', function () {
+    $('.text-display').empty();
+    $('.message-display').empty();
+    $(this).hide();
+    getServers();
 })
 
 //delete message

@@ -63,8 +63,9 @@ body {
 
 .text-display {
     margin-top: 1em;
-    margin-left: 1em;
+    margin-left: 0.5em;
     margin-right: 0em;
+    padding: 10px 10px 10px 10px;
     float: left;
     background-color: #36393e;
     /* border: 0.063em solid black; */
@@ -76,7 +77,8 @@ body {
 .message-display {
     margin-top: 1em;
     margin-left: 1em;
-    margin-right: 1em;
+    margin-right: 0.5em;
+    padding: 10px 10px 10px 10px;
     float: right;
     background-color: #36393e;
     /* border: 0.063em solid black; */

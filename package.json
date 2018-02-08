@@ -1,6 +1,6 @@
 {
   "name": "DBM",
-  "version": "1.6.3",
+  "version": "1.7.0",
   "description": "A simple application to manage your discord bot's messages",
   "main": "index.js",
   "scripts": {
@@ -11,7 +11,7 @@
     "appId": "discordbotapp",
     "asar": "true",
     "win": {
-      "target": "squirrel",
+      "target": "nsis",
       "icon": "icon.ico"
     }
   },
@@ -19,7 +19,7 @@
   "devDependencies": {
     "electron": "^1.7.9",
     "electron-builder": "^19.38.0",
-    "electron-builder-squirrel-windows": "^19.38.0"
+    "7zip-bin-win": "^2.2.0"
   },
   "dependencies": {
     "discord.js": "11.2.1",

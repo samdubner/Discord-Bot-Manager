@@ -8,6 +8,7 @@ body {
 
 .button-container {
     text-align: center;
+    margin-bottom: 1em;
 }
 
 .message {
@@ -17,12 +18,14 @@ body {
 
 #message-text {
     height: 2em;
-    border-radius: 3px;
-    background-color: #424549;
-    border: 2px solid #686a6e;
+    border-radius: 0 0 3px 3px;
+    background-color: #36393e;
+    border: 2px solid #474a4c;
     color: #bebfc1;
     text-align: center;
-    width: 20em;
+    margin: 0;
+    margin-left: 1.35em;
+    width: 27.45em;
 }
 
 #message-text:focus {
@@ -58,7 +61,6 @@ body {
 
 #back {
     margin-left: 1em;
-    margin-right: -10em;
     float: left;
 }
 
@@ -67,33 +69,43 @@ body {
     background-color: white !important;
 }
 
+#switch {
+    border: 2px solid #474a4c !important;
+    background-color: #36393e;
+    margin-right: 1em;
+    float: right;
+}
+
+#switch:hover {
+    background-color: rgb(148, 144, 144) !important;
+    background-color: rgb(148, 144, 144) !important;
+}
+
 .display-container {
     display: inline-block;
     width: 100%
 }
 
 .text-display {
-    margin-top: 1em;
     margin-left: 0.5em;
     margin-right: 0em;
     padding: 10px 10px 10px 10px;
     float: left;
     background-color: #36393e;
     /* border: 0.063em solid black; */
-    height: 25em;
+    height: 28em;
     width: 22em;
     overflow-y: scroll;
 }
 
 .message-display {
-    margin-top: 1em;
-    margin-left: 0.75em;
+    margin-left: 0.5em;
     margin-right: 0.5em;
     padding: 10px 10px 10px 10px;
     float: right;
     background-color: #36393e;
     /* border: 0.063em solid black; */
-    height: 25em;
+    height: 26em;
     width: 22em;
     overflow-y: scroll;
 }
@@ -112,11 +124,6 @@ body {
     border-bottom: 1px solid #3e4146;
 }
 
-.server-container {
-    width: auto;
-    /* text-align: center; */
-}
-
 #icon {
     margin-top: 0;
     margin-left: 4.5em;
@@ -124,7 +131,22 @@ body {
     float: left;
 }
 
+.server-container {
+    width: auto;
+    /* text-align: center; */
+}
+
 .server {
+    color: #b9bab6;
+    margin-left: 5.5em;
+}
+
+.dm-container {
+    width: auto;
+    /* text-align: center; */
+}
+
+.dm {
     color: #b9bab6;
     margin-left: 5.5em;
 }

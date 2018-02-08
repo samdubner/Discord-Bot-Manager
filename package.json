@@ -1,6 +1,6 @@
 {
   "name": "DBM",
-  "version": "1.6.1",
+  "version": "1.6.3",
   "description": "A simple application to manage your discord bot's messages",
   "main": "index.js",
   "scripts": {
@@ -17,7 +17,7 @@
   },
   "author": "SamuelDub",
   "devDependencies": {
-    "electron" : "^1.7.9",
+    "electron": "^1.7.9",
     "electron-builder": "^19.38.0",
     "electron-builder-squirrel-windows": "^19.38.0"
   },

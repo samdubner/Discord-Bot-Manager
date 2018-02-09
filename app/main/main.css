@@ -191,6 +191,10 @@ body {
     margin-bottom: 0;
 }
 
+.message-image {
+    width: 100%;
+}
+
 .pfp {
     display: inline-block;
     border-radius: 50%;

@@ -37,7 +37,7 @@ function getDMs() {
     var icon = $(document.createElement("img"));
     serverContainer.addClass("dm-container");
     serverContainer.attr("id", channel.id);
-    serverContainer.attr("name", channel.recipient.username)
+    serverContainer.attr("name", channel.recipient.username);
     serverLabel.html(channel.recipient.username);
     serverLabel.addClass("dm");
     icon.attr("src", channel.recipient.displayAvatarURL);
@@ -84,7 +84,7 @@ function appendMessage(message, isDM) {
   } else {
     var name = message.member.nickname;
   }
-  messageA.html(name + ":");
+  messageA.html(name);
   messageR.html(message.cleanContent);
   $(".message-display").append(messageC);
   $(messageC).append(pfp);
@@ -92,6 +92,11 @@ function appendMessage(message, isDM) {
   $(messageC).append(i);
   $(messageC).append(br);
   $(messageC).append(messageR);
+  message.attachments.forEach(attachment => {
+    $(messageC).append(
+      $(document.createElement("img")).attr("src", attachment.url).addClass("message-image")
+    );
+  });
   $(".message-display").scrollTop($(".message-display")[0].scrollHeight);
 }
 
@@ -159,7 +164,9 @@ $(document).on("click", ".dm-container", function(e) {
   sendChannel = $(this).attr("id");
   $("#message-text").attr("placeholder", "Message @" + $(this).attr("name"));
   $(".dm").removeClass("make-gray");
-  $(this).find(".dm").addClass("make-gray");
+  $(this)
+    .find(".dm")
+    .addClass("make-gray");
   $(".message-display").empty();
   getMessages(sendChannel);
 });

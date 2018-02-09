@@ -4,6 +4,8 @@ html {
 
 body {
     background-color: #2f3136;
+    margin-left: 0;
+    margin-right: 0;
 }
 
 .button-container {
@@ -24,8 +26,8 @@ body {
     color: #bebfc1;
     text-align: center;
     margin: 0;
-    margin-left: 0.3em;
-    width: 27.6em;
+    width: 100%;
+    float: right;
 }
 
 #message-text:focus {
@@ -87,31 +89,28 @@ body {
 }
 
 .text-display {
-    margin-left: 0.5em;
-    margin-right: 0em;
-    padding: 10px 10px 10px 10px;
+    margin-right: 0;
+    padding: 0;
+    padding-left: 0.5em;
     float: left;
     background-color: #36393e;
-    /* border: 0.063em solid black; */
-    height: 28em;
-    width: 22em;
+    height: 29em;
+    width: calc(30% - 0.5em);
     overflow-y: scroll;
 }
 
 .message-manager {
     float: right;
-    width: 24em;
+    width: 30em;
 }
 
 .message-display {
-    margin-left: 0.5em;
-    margin-right: 0.5em;
-    padding: 10px 10px 10px 10px;
+    margin: 0;
+    padding: 0;
     float: right;
     background-color: #36393e;
-    /* border: 0.063em solid black; */
-    height: 26em;
-    width: 22em;
+    height: 29em;
+    width: 70%;
     overflow-y: scroll;
 }
 
@@ -131,7 +130,6 @@ body {
 
 #icon {
     margin-top: 0;
-    margin-left: 4.5em;
     margin-right: 0;
     float: left;
 }
@@ -143,7 +141,7 @@ body {
 
 .server {
     color: #b9bab6;
-    margin-left: 5.5em;
+    margin-left: 2em;
 }
 
 .dm-container {
@@ -153,7 +151,7 @@ body {
 
 .dm {
     color: #b9bab6;
-    margin-left: 5.5em;
+    margin-left: 2em;
 }
 
 .make-gray {

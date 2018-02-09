@@ -214,23 +214,21 @@ $("#start").click(function() {
     var object = JSON.parse(string);
     var key = object.key;
     var error = false;
-    bot.login(key).catch(err => {
+    bot.login(key)
+    .then(token => {
+        online = true;
+        $("#message-text").attr(
+          "placeholder",
+          "Please select channel to send message to"
+        );
+    }).catch(err => {
       alert(
         "The bot was unable to login, please check your internet connection, and make sure your bot key is correct"
       );
       console.error(err.stack);
       error = true;
       return;
-    });
-    setTimeout(function() {
-      if (error == false) {
-        online = true;
-        $("#message-text").attr(
-          "placeholder",
-          "Please select channel to send message to"
-        );
-      }
-    }, 2000);
+    })
   } else {
     alert("The bot is already on");
   }

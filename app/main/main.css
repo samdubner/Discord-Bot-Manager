@@ -24,8 +24,8 @@ body {
     color: #bebfc1;
     text-align: center;
     margin: 0;
-    margin-left: 1.35em;
-    width: 27.45em;
+    margin-left: 0.3em;
+    width: 27.6em;
 }
 
 #message-text:focus {
@@ -96,6 +96,11 @@ body {
     height: 28em;
     width: 22em;
     overflow-y: scroll;
+}
+
+.message-manager {
+    float: right;
+    width: 24em;
 }
 
 .message-display {

@@ -241,6 +241,7 @@ $("#stop").click(function() {
     );
     $(".text-display").empty();
     $(".message-display").empty();
+    $("#back").hide();
     $("#switch").hide();
     sendChannel = "";
   } else {

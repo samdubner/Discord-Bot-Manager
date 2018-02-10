@@ -23,7 +23,7 @@ function getServers() {
     icon.attr("src", server.iconURL);
     icon.attr("id", "icon");
     icon.addClass("pfp");
-    $(".text-display").append(serverContainer);
+    $(".left-bar").append(serverContainer);
     $(serverContainer).append(icon);
     $(serverContainer).append(serverLabel);
   });
@@ -43,7 +43,7 @@ function getDMs() {
     icon.attr("src", channel.recipient.displayAvatarURL);
     icon.attr("id", "icon");
     icon.addClass("pfp");
-    $(".text-display").append(serverContainer);
+    $(".left-bar").append(serverContainer);
     $(serverContainer).append(icon);
     $(serverContainer).append(serverLabel);
   });
@@ -129,7 +129,7 @@ function getMessages(id) {
 
 //shows all channels in the server that was clicked
 $(document).on("click", ".server-container", function(e) {
-  $(".text-display").empty();
+  $(".left-bar").empty();
   $(".message-display").empty();
   $("#back").show();
   var serverId = $(this).attr("id");
@@ -151,7 +151,7 @@ $(document).on("click", ".server-container", function(e) {
         messageContainer.attr("server", channel.guild.name);
         message.addClass("channel");
         message.html("#" + channel.name);
-        $(".text-display").append(messageContainer);
+        $(".left-bar").append(messageContainer);
         $(messageContainer).append(message);
       }
     });
@@ -186,7 +186,7 @@ $(document).on("click", ".message-container", function() {
 });
 
 $(document).on("click", "#back", function() {
-  $(".text-display").empty();
+  $(".left-bar").empty();
   $(".message-display").empty();
   $(this).hide();
   getServers();
@@ -206,7 +206,13 @@ $(document).on("click", ".material-icons", function() {
 
 //logs in the bot once the start button was clicked
 $("#start").click(function() {
+  login();
+});
+
+function login() {
+  console.log("clicked")
   if (online == false) {
+    console.log("false")
     var string = fs.readFileSync(
       app.getPath("appData") + "/DBM/save.txt",
       "utf8"
@@ -216,6 +222,7 @@ $("#start").click(function() {
     var error = false;
     bot.login(key)
     .then(token => {
+        console.log("logging in...")
         online = true;
         $("#message-text").attr(
           "placeholder",
@@ -226,41 +233,18 @@ $("#start").click(function() {
         "The bot was unable to login, please check your internet connection, and make sure your bot key is correct"
       );
       console.error(err.stack);
-      error = true;
-      return;
     })
   } else {
     alert("The bot is already on");
   }
-  return;
-});
-
-//logs the bot off and empties both divs
-$("#stop").click(function() {
-  if (online == true) {
-    bot.destroy();
-    online = false;
-    $("#message-text").attr(
-      "placeholder",
-      "Bot must be online to send messages"
-    );
-    $(".text-display").empty();
-    $(".message-display").empty();
-    $("#back").hide();
-    $("#switch").hide();
-    sendChannel = "";
-  } else {
-    alert("The bot is not online");
-  }
-  return;
-});
+}
 
 $("#switch").click(function() {
-  $(".text-display").empty();
+  sendChannel = "";
+  $(".left-bar").empty();
   $(".message-display").empty();
   if ($(this).val() == "DMs") {
     $(this).val("Servers");
-    sendChannel = "";
     getDMs();
   } else {
     $(this).val("DMs");
@@ -289,3 +273,5 @@ $("#message-text").on("keydown", function(e) {
     $("#message-text").val("");
   }
 });
+
+login()

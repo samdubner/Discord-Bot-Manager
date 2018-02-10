@@ -1,16 +1,26 @@
+.display-holder {
+    display: inline-block;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
 html {
     -webkit-tap-highlight-color: transparent;
 }
 
 body {
     background-color: #2f3136;
-    margin-left: 0;
-    margin-right: 0;
+    margin: 0;
 }
 
 .button-container {
+    position: absolute;
+    top: 0;
     text-align: center;
-    margin-bottom: 1em;
+    height: 7%;
+    width: 30%;
+    margin: 0;
 }
 
 .message {
@@ -18,29 +28,14 @@ body {
     text-align: center;
 }
 
-#message-text {
-    height: 2em;
-    border-radius: 0 0 3px 3px;
-    background-color: #36393e;
-    border: 2px solid #474a4c;
-    color: #bebfc1;
-    text-align: center;
-    margin: 0;
-    width: 99.5%;
-}
-
-#message-text:focus {
-    color: #bebfc1;
-}
-
 .buttons {
-    background-color: #f44336;
+    background-color: #4CAF50;
     border-radius: 8px;
     color: white;
     padding: 10px 24px;
     text-align: center;
     text-decoration: none;
-    border: 2px solid #f44336 !important;
+    border: 2px solid #4CAF50 !important;
     font-size: 10px;
 }
 
@@ -48,11 +43,6 @@ body {
     transition-duration: 0.4s;
     background-color: white;
     color: black;
-}
-
-#start {
-    background-color: #4CAF50 !important;
-    border: 2px solid #4CAF50 !important;
 }
 
 #start:hover {
@@ -84,33 +74,54 @@ body {
 
 .display-container {
     display: inline-block;
-    width: 100%
+    height: 100%;
+    width: 100%;
 }
 
-.text-display {
-    margin-right: 0;
-    padding: 0;
-    padding-left: 0.5em;
-    float: left;
+#message-text {
+    height: 2em;
+    position: absolute;
+    bottom: 0;
+    left: 30%;
     background-color: #36393e;
-    height: 29em;
-    width: calc(30% - 0.5em);
+    color: #bebfc1;
+    text-align: center;
+    padding: 0;
+    margin: 0;
+    width: 70%;
+    border: 0;
+    border-top: 2px #2f3136 solid;
+}
+
+#message-text:focus {
+    color: #bebfc1;
+}
+
+.left-bar {
+    position: absolute;
+    margin: 0;
+    left: 0;
+    bottom: 0;
+    width: 30%;
+    background-color: #2f3136;
     overflow-y: scroll;
+    height: 93%;
+}
+
+.message-display {
+    position: absolute;
+    left: 30%;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    background-color: #36393e;
+    overflow-y: scroll;
+    height: calc(100% - 2em + 2px);
 }
 
 .message-manager {
     float: right;
     width: 30em;
-}
-
-.message-display {
-    margin: 0;
-    padding: 0;
-    float: right;
-    background-color: #36393e;
-    height: 29em;
-    width: 70%;
-    overflow-y: scroll;
 }
 
 .message {
@@ -135,7 +146,7 @@ body {
 
 .server-container {
     width: auto;
-    /* text-align: center; */
+    margin-left: 1em;
 }
 
 .server {
@@ -145,7 +156,7 @@ body {
 
 .dm-container {
     width: auto;
-    /* text-align: center; */
+    margin-left: 1em;
 }
 
 .dm {

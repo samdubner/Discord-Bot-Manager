@@ -15,12 +15,24 @@ const fs = require("fs");
 
 const autoUpdater = require("electron-updater").autoUpdater;
 
-autoUpdater.autoDownload = false;
-
 autoUpdater
   .checkForUpdates()
   .then(UpdateCheckResult => console.log(UpdateCheckResult))
   .catch(console.error());
+
+autoUpdater.on("update-downloaded", info => {
+  // Restart the app and install the update
+  dialog.showMessageBox({
+    type: 'question',
+    buttons: ['Yes', 'No'],
+    title: 'Confirm',
+    message: `v${info.version} has been downloaded, would you like to restart the app to update?`
+  }, function (response) {
+    if (response === 0) {
+      autoUpdater.quitAndInstall();
+    }
+  })
+});
 
 let mainWindow;
 
@@ -56,37 +68,13 @@ app.on("ready", function() {
   const menu = Menu.buildFromTemplate(template);
   Menu.setApplicationMenu(menu);
 
-  //waits for page to load before checking for updates
-  page.once("did-frame-finish-load", () => {
-    // Check for updates
-    // `status` returns true if there is a new update available
-    autoUpdater.on("update-available", (info) => {
-      if (!err && status) {
-        dialog.showMessageBox({
-          type: 'question',
-          buttons: ['Yes', 'No'],
-          title: 'Confirm',
-          message: `v${info.version} is available, would you like to download it and restart?`
-        }, function (response) {
-          if (response === 0) {
-            downloadUpdate();
-          }
-        })
-      }
-    })
-
-    function downloadUpdate() {
-      autoUpdater.downloadUpdate()
-    }
-
-    // When an update has been downloaded
-    autoUpdater.on('update-downloaded', (info) => {
-      // Restart the app and install the update
-      autoUpdater.quitAndInstall(false, true)
-    })
+  app.on("window-all-closed", function() {
+    app.quit();
   });
-});
 
-app.on("window-all-closed", function() {
-  app.quit();
+  //waits for page to load before checking for updates
+  // page.once("did-frame-finish-load", () => { 
+
+  // })
+
 });

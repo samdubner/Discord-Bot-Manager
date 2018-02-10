@@ -1,6 +1,6 @@
 {
   "name": "DBM",
-  "version": "1.7.1",
+  "version": "1.7.3",
   "description": "A simple application to manage your discord bot's messages",
   "main": "index.js",
   "scripts": {
@@ -28,8 +28,8 @@
   },
   "dependencies": {
     "discord.js": "11.2.1",
-    "electron-gh-releases": "^2.0.4",
     "electron-prompt": "^0.2.0",
+    "electron-updater": "^2.20.1",
     "fast-deep-equal": "^1.0.0",
     "fs": "0.0.1-security",
     "source-map": "^0.7.0",

@@ -13,18 +13,9 @@ const template = menu.array();
 //to check if key.txt exists
 const fs = require("fs");
 
-// //uses github repo as update server
-// const GhReleases = require("electron-gh-releases");
-
-// //basic setup for GhReleases
-// let options = {
-//   repo: "SamuelDub/DiscordBot-App",
-//   currentVersion: app.getVersion()
-// };
-
-// const updater = new GhReleases(options);
-
 const autoUpdater = require("electron-updater").autoUpdater;
+
+autoUpdater.autoDownload = false;
 
 autoUpdater
   .checkForUpdates()
@@ -69,31 +60,30 @@ app.on("ready", function() {
   page.once("did-frame-finish-load", () => {
     // Check for updates
     // `status` returns true if there is a new update available
-    // updater.check((err, status) => {
-    //   if (!err && status) {
-    //     dialog.showMessageBox({
-    //       type: 'question',
-    //       buttons: ['Yes', 'No'],
-    //       title: 'Confirm',
-    //       message: 'A new update is available, would you like to download it and restart?'
-    //     }, function (response) {
-    //       if (response === 0) { // Runs the following if 'Yes' is clicked
-    //         mainWindow.hide();
-    //         downloadUpdate();
-    //       }
-    //     })
-    //   }
-    // })
-    // function downloadUpdate() {
-    //   updater.download();
-    // }
+    autoUpdater.on("update-available", (info) => {
+      if (!err && status) {
+        dialog.showMessageBox({
+          type: 'question',
+          buttons: ['Yes', 'No'],
+          title: 'Confirm',
+          message: `v${info.version} is available, would you like to download it and restart?`
+        }, function (response) {
+          if (response === 0) {
+            downloadUpdate();
+          }
+        })
+      }
+    })
+
+    function downloadUpdate() {
+      autoUpdater.downloadUpdate()
+    }
+
     // When an update has been downloaded
-    // updater.on('update-downloaded', (info) => {
-    //   // Restart the app and install the update
-    //   updater.install()
-    // })
-    // Access electrons autoUpdater
-    // updater.autoUpdater
+    autoUpdater.on('update-downloaded', (info) => {
+      // Restart the app and install the update
+      autoUpdater.quitAndInstall(false, true)
+    })
   });
 });
 

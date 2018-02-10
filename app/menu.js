@@ -6,47 +6,37 @@ const BrowserWindow = electron.BrowserWindow
 //to change the bot key
 const fs = require('fs')
 
-//uses github repo as update server
-const GhReleases = require('electron-gh-releases')
-
 //electron dosen't support prompts, so I have to use another package :(
 const prompt = require('electron-prompt')
 
-//basic setup for GhReleases
-let options = {
-    repo: 'SamuelDub/DiscordBot-App',
-    currentVersion: app.getVersion()
-}
-
-const updater = new GhReleases(options)
 
 //check for update and then ask user to restart if there is an update available
-function check() {
-    updater.check((err, status) => {
-        if (!err && status) {
-            dialog.showMessageBox({
-                type: 'question',
-                buttons: ['Yes', 'No'],
-                title: 'Confirm',
-                message: 'A new update is available, would you like to download it and restart?'
-            }, function (response) {
-                if (response === 0) { // Runs the following if 'Yes' is clicked
-                    var focusedWindow = BrowserWindow.getFocusedWindow();
-                    focusedWindow.hide();
-                    updater.download();
-                }
-            })
-        } else {
-            dialog.showMessageBox({
-                type: 'info',
-                buttons: ['Ok'],
-                title: 'No new update is available',
-                message: 'There are currently no new updates available'
-            })
-        }
-    })
+// function check() {
+//     updater.check((err, status) => {
+//         if (!err && status) {
+//             dialog.showMessageBox({
+//                 type: 'question',
+//                 buttons: ['Yes', 'No'],
+//                 title: 'Confirm',
+//                 message: 'A new update is available, would you like to download it and restart?'
+//             }, function (response) {
+//                 if (response === 0) { // Runs the following if 'Yes' is clicked
+//                     var focusedWindow = BrowserWindow.getFocusedWindow();
+//                     focusedWindow.hide();
+//                     updater.download();
+//                 }
+//             })
+//         } else {
+//             dialog.showMessageBox({
+//                 type: 'info',
+//                 buttons: ['Ok'],
+//                 title: 'No new update is available',
+//                 message: 'There are currently no new updates available'
+//             })
+//         }
+//     })
 
-}
+// }
 
 //change the token for the bot
 function change() {
@@ -112,12 +102,13 @@ module.exports = {
 
         var template = [{
                 label: 'File',
-                submenu: [{
-                        label: 'Check For Updates',
-                        click: function () {
-                            check();
-                        }
-                    },
+                submenu: [
+                    // {
+                    //     label: 'Check For Updates',
+                    //     click: function () {
+                    //         check();
+                    //     }
+                    // },
                     {
                         label: 'About',
                         click: function () {

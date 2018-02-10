@@ -24,7 +24,7 @@
   "devDependencies": {
     "7zip-bin-win": "^2.2.0",
     "electron": "^1.7.9",
-    "electron-builder": "^19.38.0"
+    "electron-builder": "^19.56.0"
   },
   "dependencies": {
     "discord.js": "11.2.1",

@@ -12,6 +12,7 @@ var channelSelected = false;
 var sendChannel;
 
 function getServers() {
+  console.log("fetching servers...")
   bot.guilds.forEach(function(server) {
     var serverLabel = $(document.createElement("h3"));
     var serverContainer = $(document.createElement("div"));
@@ -30,6 +31,7 @@ function getServers() {
 }
 
 function getDMs() {
+  console.log("fetching dms...")
   bot.channels.forEach(function(channel) {
     if (channel.type != "dm") return;
     var serverLabel = $(document.createElement("h3"));
@@ -51,8 +53,11 @@ function getDMs() {
 
 //loads all the guilds when the bot is ready to go
 bot.on("ready", function() {
+  console.log("logged in!")
   $("#switch").show();
-  getServers();
+  setTimeout(function() {
+    getServers();
+  }, 1000)
 });
 
 //adds message to the text box
@@ -204,47 +209,13 @@ $(document).on("click", ".material-icons", function() {
     .remove();
 });
 
-//logs in the bot once the start button was clicked
-$("#start").click(function() {
-  login();
-});
-
-function login() {
-  console.log("clicked")
-  if (online == false) {
-    console.log("false")
-    var string = fs.readFileSync(
-      app.getPath("appData") + "/DBM/save.txt",
-      "utf8"
-    );
-    var object = JSON.parse(string);
-    var key = object.key;
-    var error = false;
-    bot.login(key)
-    .then(token => {
-        console.log("logging in...")
-        online = true;
-        $("#message-text").attr(
-          "placeholder",
-          "Please select channel to send message to"
-        );
-    }).catch(err => {
-      alert(
-        "The bot was unable to login, please check your internet connection, and make sure your bot key is correct"
-      );
-      console.error(err.stack);
-    })
-  } else {
-    alert("The bot is already on");
-  }
-}
-
 $("#switch").click(function() {
   sendChannel = "";
   $(".left-bar").empty();
   $(".message-display").empty();
   if ($(this).val() == "DMs") {
     $(this).val("Servers");
+    $("#back").hide()
     getDMs();
   } else {
     $(this).val("DMs");
@@ -273,5 +244,33 @@ $("#message-text").on("keydown", function(e) {
     $("#message-text").val("");
   }
 });
+
+function login() {
+  if (online == false) {
+    var string = fs.readFileSync(
+      app.getPath("appData") + "/DBM/save.txt",
+      "utf8"
+    );
+    var object = JSON.parse(string);
+    var key = object.key;
+    var error = false;
+    bot.login(key)
+    .then(token => {
+        console.log("logging in...")
+        online = true;
+        $("#message-text").attr(
+          "placeholder",
+          "Please select channel to send message to"
+        );
+    }).catch(err => {
+      alert(
+        "The bot was unable to login, please check your internet connection, and make sure your bot key is correct"
+      );
+      console.error(err.stack);
+    })
+  } else {
+    alert("The bot is already on");
+  }
+}
 
 login()

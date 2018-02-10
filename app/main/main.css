@@ -26,8 +26,7 @@ body {
     color: #bebfc1;
     text-align: center;
     margin: 0;
-    width: 100%;
-    float: right;
+    width: 99.5%;
 }
 
 #message-text:focus {

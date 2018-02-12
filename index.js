@@ -22,21 +22,27 @@ autoUpdater
 
 autoUpdater.on("update-downloaded", info => {
   // Restart the app and install the update
-  dialog.showMessageBox({
-    type: 'question',
-    buttons: ['Yes', 'No'],
-    title: 'Confirm',
-    message: `v${info.version} has been downloaded, would you like to restart the app to update?`
-  }, function (response) {
-    if (response === 0) {
-      autoUpdater.quitAndInstall();
+  dialog.showMessageBox(
+    {
+      type: "question",
+      buttons: ["Yes", "No"],
+      title: "Confirm",
+      message: `v${
+        info.version
+      } has been downloaded, would you like to restart the app to update?`
+    },
+    function(response) {
+      if (response === 0) {
+        autoUpdater.quitAndInstall();
+      }
     }
-  })
+  );
 });
 
 let mainWindow;
 
 app.on("ready", function() {
+  const { width, height } = electron.screen.getPrimaryDisplay().workAreaSize;
   var dir = app.getPath("appData") + "/DBM";
   if (!fs.existsSync(dir)) {
     fs.mkdirSync(dir);
@@ -51,9 +57,9 @@ app.on("ready", function() {
     mainWindow.loadURL("file://" + __dirname + "/app/password/password.html");
   } else {
     var mainWindow = new BrowserWindow({
-      width: 800,
-      height: 600,
-      resizable: false
+      width,
+      height,
+      resizable: true
     });
     mainWindow.loadURL("file://" + __dirname + "/app/main/main.html");
   }
@@ -73,8 +79,7 @@ app.on("ready", function() {
   });
 
   //waits for page to load before checking for updates
-  // page.once("did-frame-finish-load", () => { 
+  // page.once("did-frame-finish-load", () => {
 
   // })
-
 });

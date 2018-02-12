@@ -12,7 +12,7 @@ var channelSelected = false;
 var sendChannel;
 
 function getServers() {
-  console.log("fetching servers...")
+  console.log("fetching servers...");
   bot.guilds.forEach(function(server) {
     var serverLabel = $(document.createElement("h3"));
     var serverContainer = $(document.createElement("div"));
@@ -31,7 +31,7 @@ function getServers() {
 }
 
 function getDMs() {
-  console.log("fetching dms...")
+  console.log("fetching dms...");
   bot.channels.forEach(function(channel) {
     if (channel.type != "dm") return;
     var serverLabel = $(document.createElement("h3"));
@@ -53,21 +53,23 @@ function getDMs() {
 
 //loads all the guilds when the bot is ready to go
 bot.on("ready", function() {
-  console.log("logged in!")
+  console.log("logged in!");
   $("#switch").show();
   setTimeout(function() {
     getServers();
-  }, 1000)
+  }, 1000);
 });
 
 //adds message to the text box
 function appendMessage(message, isDM) {
   var messageC = $(document.createElement("div"));
   var messageA = $(document.createElement("span"));
+  var messageT = $(document.createElement("span"));
   var br = $(document.createElement("br"));
   var messageR = $(document.createElement("span"));
   var pfp = $(document.createElement("img"));
   var i = $(document.createElement("i"));
+  messageT.addClass("message-time");
   i.addClass("material-icons md-inactive md-dark md-18");
   i.attr("id", message.id);
   i.html("delete");
@@ -90,16 +92,20 @@ function appendMessage(message, isDM) {
     var name = message.member.nickname;
   }
   messageA.html(name);
+  messageT.html(message.createdAt);
   messageR.html(message.cleanContent);
   $(".message-display").append(messageC);
   $(messageC).append(pfp);
   $(messageC).append(messageA);
+  $(messageC).append(messageT);
   $(messageC).append(i);
   $(messageC).append(br);
   $(messageC).append(messageR);
   message.attachments.forEach(attachment => {
     $(messageC).append(
-      $(document.createElement("img")).attr("src", attachment.url).addClass("message-image")
+      $(document.createElement("img"))
+        .attr("src", attachment.url)
+        .addClass("message-image")
     );
   });
   $(".message-display").scrollTop($(".message-display")[0].scrollHeight);
@@ -138,28 +144,23 @@ $(document).on("click", ".server-container", function(e) {
   $(".message-display").empty();
   $("#back").show();
   var serverId = $(this).attr("id");
-  var channels = 0;
-  let positions = [];
 
-  bot.guilds.get(serverId).channels.forEach(function(channel) {
-    if (channel.type == "text") positions.push(channel.position);
-  });
+  var textChannels = bot.guilds
+    .get(serverId)
+    .channels.filter(channel => channel.type == "text")
+    .sort((a, b) => a.position - b.position);
 
-  positions.forEach(function(positionF) {
-    bot.guilds.get(serverId).channels.forEach(function(channel) {
-      if (channel.position == positionF && channel.type !== "voice") {
-        var message = $(document.createElement("p"));
-        var messageContainer = $(document.createElement("div"));
-        messageContainer.addClass("message-container");
-        messageContainer.attr("id", channel.id);
-        messageContainer.attr("name", channel.name);
-        messageContainer.attr("server", channel.guild.name);
-        message.addClass("channel");
-        message.html("#" + channel.name);
-        $(".left-bar").append(messageContainer);
-        $(messageContainer).append(message);
-      }
-    });
+  textChannels.forEach(function(channel) {
+    var message = $(document.createElement("p"));
+    var messageContainer = $(document.createElement("div"));
+    messageContainer.addClass("message-container");
+    messageContainer.attr("id", channel.id);
+    messageContainer.attr("name", channel.name);
+    messageContainer.attr("server", channel.guild.name);
+    message.addClass("channel");
+    message.html("#" + channel.name);
+    $(".left-bar").append(messageContainer);
+    $(messageContainer).append(message);
   });
 });
 
@@ -215,7 +216,7 @@ $("#switch").click(function() {
   $(".message-display").empty();
   if ($(this).val() == "DMs") {
     $(this).val("Servers");
-    $("#back").hide()
+    $("#back").hide();
     getDMs();
   } else {
     $(this).val("DMs");
@@ -254,23 +255,25 @@ function login() {
     var object = JSON.parse(string);
     var key = object.key;
     var error = false;
-    bot.login(key)
-    .then(token => {
-        console.log("logging in...")
+    bot
+      .login(key)
+      .then(token => {
+        console.log("logging in...");
         online = true;
         $("#message-text").attr(
           "placeholder",
           "Please select channel to send message to"
         );
-    }).catch(err => {
-      alert(
-        "The bot was unable to login, please check your internet connection, and make sure your bot key is correct"
-      );
-      console.error(err.stack);
-    })
+      })
+      .catch(err => {
+        alert(
+          "The bot was unable to login, please check your internet connection, and make sure your bot key is correct"
+        );
+        console.error(err.stack);
+      });
   } else {
     alert("The bot is already on");
   }
 }
 
-login()
+login();

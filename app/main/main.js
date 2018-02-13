@@ -73,7 +73,7 @@ function appendMessage(message, isDM) {
   i.addClass("material-icons md-inactive md-dark md-18");
   i.attr("id", message.id);
   i.html("delete");
-  pfp.attr("src", message.author.avatarURL);
+  pfp.attr("src", message.author.displayAvatarURL);
   pfp.addClass("pfp");
   messageA.addClass("message-author");
   var colorS;

@@ -13,32 +13,6 @@ const template = menu.array();
 //to check if key.txt exists
 const fs = require("fs");
 
-const autoUpdater = require("electron-updater").autoUpdater;
-
-autoUpdater
-  .checkForUpdates()
-  .then(UpdateCheckResult => console.log(UpdateCheckResult))
-  .catch(console.error());
-
-autoUpdater.on("update-downloaded", info => {
-  // Restart the app and install the update
-  dialog.showMessageBox(
-    {
-      type: "question",
-      buttons: ["Yes", "No"],
-      title: "Confirm",
-      message: `v${
-        info.version
-      } has been downloaded, would you like to restart the app to update?`
-    },
-    function(response) {
-      if (response === 0) {
-        autoUpdater.quitAndInstall();
-      }
-    }
-  );
-});
-
 let mainWindow;
 
 app.on("ready", function() {
@@ -77,9 +51,30 @@ app.on("ready", function() {
   app.on("window-all-closed", function() {
     app.quit();
   });
+});
 
-  //waits for page to load before checking for updates
-  // page.once("did-frame-finish-load", () => {
+const autoUpdater = require("electron-updater").autoUpdater;
 
-  // })
+autoUpdater
+  .checkForUpdates()
+  .then(UpdateCheckResult => console.log(UpdateCheckResult))
+  .catch(console.error());
+
+autoUpdater.on("update-downloaded", info => {
+  // Restart the app and install the update
+  dialog.showMessageBox(
+    {
+      type: "question",
+      buttons: ["Yes", "No"],
+      title: "Confirm",
+      message: `v${
+        info.version
+      } has been downloaded, would you like to restart the app to update?`
+    },
+    function(response) {
+      if (response === 0) {
+        autoUpdater.quitAndInstall();
+      }
+    }
+  );
 });

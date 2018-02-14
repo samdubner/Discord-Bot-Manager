@@ -10,38 +10,28 @@ const menu = require("./app/menu.js");
 
 const template = menu.array();
 
-//to check if key.txt exists
+//to check if DBM folder exists
 const fs = require("fs");
+
+var dir = app.getPath("appData") + "/DBM";
+if (!fs.existsSync(dir)) {
+  fs.mkdirSync(dir);
+}
 
 let mainWindow;
 
 app.on("ready", function() {
   const { width, height } = electron.screen.getPrimaryDisplay().workAreaSize;
-  var dir = app.getPath("appData") + "/DBM";
-  if (!fs.existsSync(dir)) {
-    fs.mkdirSync(dir);
-  }
 
-  if (!fs.existsSync(app.getPath("appData") + "/DBM/save.txt")) {
-    var mainWindow = new BrowserWindow({
-      width: 750,
-      height: 200,
-      resizable: false
-    });
-    mainWindow.loadURL("file://" + __dirname + "/app/password/password.html");
-  } else {
-    var mainWindow = new BrowserWindow({
-      width,
-      height,
-      resizable: true
-    });
-    mainWindow.loadURL("file://" + __dirname + "/app/main/main.html");
-  }
+  var mainWindow = new BrowserWindow({
+    width,
+    height,
+    resizable: true
+  });
+
+  mainWindow.loadURL("file://" + __dirname + "/app/main/main.html");
 
   mainWindow.focus();
-
-  //only enable when testing app
-  //mainWindow.webContents.openDevTools()
 
   const page = mainWindow.webContents;
 

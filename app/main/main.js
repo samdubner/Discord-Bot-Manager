@@ -2,9 +2,46 @@ const Discord = require("discord.js");
 const bot = new Discord.Client();
 
 const remote = require("electron").remote;
+const BrowserWindow = remote.BrowserWindow;
 const app = remote.app;
+const ipcRenderer = require("electron").ipcRenderer;
+
+const swal = require("sweetalert2");
 
 const fs = require("fs");
+
+function changeToken() {
+  swal({
+    title: "<h3 id=\"changeTokenTitle\">Change Bot Token</h3>",
+    input: "text",
+    inputPlaceholder: "Please enter your bot token",
+    showCancelButton: false,
+    allowOutsideClick: false,
+    background: "#2f3136",
+    inputAttributes: {
+      id: "changeTokenText"
+    },
+    inputValidator: value => {
+      return !value && "You cannot submit a blank space!";
+    }
+  }).then(result => {
+    var key = {
+      key: result.value.trim()
+    };
+
+    var string = JSON.stringify(key);
+
+    fs.writeFileSync(app.getPath("appData") + "/DBM/save.txt", string);
+  });
+}
+
+if (!fs.existsSync(app.getPath("appData") + "/DBM/save.txt")) {
+  changeToken();
+}
+
+ipcRenderer.on("changeToken", function(event, data) {
+  changeToken();
+});
 
 var online = false;
 

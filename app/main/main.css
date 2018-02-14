@@ -214,6 +214,16 @@ body {
   margin-top: 1em;
 }
 
+#changeTokenTitle {
+  margin-bottom: 0;
+  color: lightgray;
+}
+
+#changeTokenText {
+  background-color: #36393e;
+  border: 2px #2f3136 solid;
+}
+
 ::-webkit-scrollbar {
   width: 10px;
 }

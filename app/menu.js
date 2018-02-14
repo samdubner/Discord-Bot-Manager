@@ -6,40 +6,10 @@ const BrowserWindow = electron.BrowserWindow;
 //to change the bot key
 const fs = require("fs");
 
-//electron dosen't support prompts, so I have to use another package :(
-const prompt = require("electron-prompt");
-
 //change the token for the bot
 function change() {
-  prompt({
-    title: "Change Bot Key",
-    label: "Please enter your new bot key",
-    value: "",
-    inputAttrs: {
-      type: "url"
-    }
-  })
-    .then(response => {
-      console.log(response); //null if window was closed, or user clicked Cancel
-      if (response == null) {
-        return;
-      } else {
-        fs.unlinkSync(app.getPath("appData") + "/DBM/save.txt");
-
-        var key = {
-          key: response
-        };
-
-        var string = JSON.stringify(key);
-
-        fs.writeFile(app.getPath("appData") + "/DBM/save.txt", string, function(
-          err
-        ) {
-          if (err) throw err;
-        });
-      }
-    })
-    .catch(console.error);
+  const mainWindow = BrowserWindow.getFocusedWindow();
+  mainWindow.webContents.send("changeToken");
 }
 
 //the about page is just the app version 11/10

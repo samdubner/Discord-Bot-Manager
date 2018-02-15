@@ -12,7 +12,7 @@ const fs = require("fs");
 
 function changeToken() {
   swal({
-    title: "<h3 id=\"changeTokenTitle\">Change Bot Token</h3>",
+    title: '<h3 id="changeTokenTitle">Change Bot Token</h3>',
     input: "text",
     inputPlaceholder: "Please enter your bot token",
     showCancelButton: false,
@@ -26,7 +26,7 @@ function changeToken() {
     }
   }).then(result => {
     var key = {
-      key: result.value.trim()
+      key: result.value
     };
 
     var string = JSON.stringify(key);
@@ -46,6 +46,7 @@ ipcRenderer.on("changeToken", function(event, data) {
 var online = false;
 
 var channelSelected = false;
+var serverId;
 var sendChannel;
 
 function getServers() {
@@ -113,9 +114,10 @@ function appendMessage(message, isDM) {
   pfp.attr("src", message.author.displayAvatarURL);
   pfp.addClass("pfp");
   messageA.addClass("message-author");
+  messageA.attr("id", message.author.id);
   var colorS;
   if (!isDM) {
-    var colorS = message.member.displayHexColor;
+    colorS = message.member.displayHexColor;
   }
   if (colorS == "#000000" || isDM) {
     colorS = "#a6a6a6";
@@ -180,7 +182,7 @@ $(document).on("click", ".server-container", function(e) {
   $(".left-bar").empty();
   $(".message-display").empty();
   $("#back").show();
-  var serverId = $(this).attr("id");
+  serverId = $(this).attr("id");
 
   var textChannels = bot.guilds
     .get(serverId)
@@ -228,9 +230,29 @@ $(document).on("click", ".message-container", function() {
   getMessages(sendChannel);
 });
 
+$(document).on("click", ".message-author", function() {
+  var member = bot.guilds.get(serverId).members.get($(this).attr("id"));
+  $("#userModal").css("display", "block");
+});
+
+$(document).on("click", "#userModalClose", function() {
+  $("#userModal").css("display", "none");
+});
+
+// Get the modal
+var modal = document.getElementById("userModal");
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+};
+
 $(document).on("click", "#back", function() {
   $(".left-bar").empty();
   $(".message-display").empty();
+  sendChannel = "";
   $(this).hide();
   getServers();
 });

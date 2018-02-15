@@ -232,11 +232,9 @@ $(document).on("click", ".message-container", function() {
 
 $(document).on("click", ".message-author", function() {
   var member = bot.guilds.get(serverId).members.get($(this).attr("id"));
+  $("#modalProfilePicture").attr("src", member.user.displayAvatarURL)
+  $("#modalUserName").html(member.user.username)
   $("#userModal").css("display", "block");
-});
-
-$(document).on("click", "#userModalClose", function() {
-  $("#userModal").css("display", "none");
 });
 
 // Get the modal

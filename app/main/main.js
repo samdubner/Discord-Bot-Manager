@@ -93,9 +93,8 @@ function getDMs() {
 bot.on("ready", function() {
   console.log("logged in!");
   $("#switch").show();
-  setTimeout(function() {
-    getServers();
-  }, 1000);
+  $(".message-display").empty();
+  getServers();
 });
 
 //adds message to the text box
@@ -106,7 +105,7 @@ function appendMessage(message, isDM) {
   var br = $(document.createElement("br"));
   var messageR = $(document.createElement("span"));
   var pfp = $(document.createElement("img"));
-  if(message.deletable) {
+  if (message.deletable) {
     var i = $(document.createElement("i"));
     i.addClass("material-icons md-inactive md-dark md-18");
     i.attr("id", message.id);
@@ -117,6 +116,7 @@ function appendMessage(message, isDM) {
   pfp.addClass("pfp");
   pfp.attr("id", message.author.id);
   messageA.addClass("message-author");
+  messageA.attr("id", message.author.id);
   var colorS;
   if (!isDM) {
     colorS = message.member.displayHexColor;
@@ -139,7 +139,7 @@ function appendMessage(message, isDM) {
   $(messageC).append(pfp);
   $(messageC).append(messageA);
   $(messageC).append(messageT);
-  if(message.deletable) $(messageC).append(i);
+  if (message.deletable) $(messageC).append(i);
   $(messageC).append(br);
   $(messageC).append(messageR);
   message.attachments.forEach(attachment => {
@@ -253,6 +253,11 @@ function getModalRoles(member) {
     }
   });
 }
+
+$(document).on("click", ".message-author", function() {
+  var message = $("#message-text").val() + ` <@${$(this).attr("id")}>`;
+  $("#message-text").val(message.trim());
+});
 
 $(document).on("click", ".pfp", function() {
   var member = bot.guilds.get(serverId).members.get($(this).attr("id"));

@@ -1,0 +1,117 @@
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  padding-top: 15%;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+.modal-content {
+  border-radius: 8px;
+  position: relative;
+  background-color: #2f3136;
+  margin: auto;
+  padding: 0;
+  width: 40em;
+  -webkit-animation-name: animatetop;
+  -webkit-animation-duration: 0.4s;
+}
+
+.modal-header {
+  border-radius: 8px 8px 0px 0px;
+  padding: 2px 16px;
+  background-color: #202225;
+  color: white;
+}
+
+.modal-body {
+  padding: 2px 16px;
+}
+
+.modal-footer {
+  border-radius: 0px 0px 8px 8px;
+  padding: 2px 16px;
+  background-color: #202225;
+  color: white;
+}
+
+#modalUserName {
+  color: #fff;
+  padding-top: 0.3em;
+  margin-bottom: 0;
+}
+
+#modalProfilePicture {
+  margin-right: 1em;
+  margin-top: 0.8em;
+  float: left;
+  border-radius: 50%;
+  width: 80px;
+}
+
+#modalDiscriminator {
+  color: hsla(0, 0%, 100%, 0.6);
+  margin-top: 0.5em;
+}
+
+.modalRoleList {
+  flex-wrap: wrap;
+  padding: 0;
+  list-style: none;
+}
+
+.modalRole {
+  border: 1px solid;
+  border-radius: 11px;
+  box-sizing: border-box;
+  height: 22px;
+  margin: 0 4px 4px 0;
+  padding: 4px;
+  align-items: center;
+  border-color: rgba(185, 187, 190, 0.6);
+  display: inline-flex;
+}
+
+.modalRoleColor {
+  background-color: rgb(185, 187, 190);
+  border-radius: 50%;
+  height: 12px;
+  margin-right: 4px;
+  width: 12px;
+}
+
+.modalRoleName {
+  color: hsla(0, 0%, 100%, 0.8);
+  margin-right: 4px;
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@-webkit-keyframes animatetop {
+  from {
+    top: -300px;
+    opacity: 0;
+  }
+  to {
+    top: 0;
+    opacity: 1;
+  }
+}
+
+@keyframes animatetop {
+  from {
+    top: -300px;
+    opacity: 0;
+  }
+  to {
+    top: 0;
+    opacity: 1;
+  }
+}

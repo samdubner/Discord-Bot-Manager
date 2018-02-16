@@ -246,7 +246,8 @@ body {
   background-color: #2f3136;
   margin: auto;
   padding: 0;
-  width: 80%;
+  width: 60%;
+  height: 24em;
   -webkit-animation-name: animatetop;
   -webkit-animation-duration: 0.4s;
 }
@@ -275,9 +276,15 @@ body {
 }
 
 #modalProfilePicture {
+  margin-right: 1em;
+  margin-top: 1.25em;
   float: left;
   border-radius: 50%;
   width: 40px;
+}
+
+#modalDiscriminator {
+  color: hsla(0,0%,100%,.6)
 }
 
 @-webkit-keyframes animatetop {

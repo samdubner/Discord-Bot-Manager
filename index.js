@@ -26,6 +26,8 @@ app.on("ready", function() {
   var mainWindow = new BrowserWindow({
     width,
     height,
+    minWidth: 560,
+    minHeight: 680,
     resizable: true
   });
 

@@ -232,8 +232,13 @@ $(document).on("click", ".message-container", function() {
 
 $(document).on("click", ".message-author", function() {
   var member = bot.guilds.get(serverId).members.get($(this).attr("id"));
-  $("#modalProfilePicture").attr("src", member.user.displayAvatarURL)
-  $("#modalUserName").html(member.user.username)
+  $("#modalProfilePicture").attr("src", member.user.displayAvatarURL);
+  var nickname =
+    member.nickname == null ? member.user.username : member.nickname;
+  $("#modalUserName").html(nickname);
+  $("#modalDiscriminator").html(
+    `${member.user.username}#${member.user.discriminator}`
+  );
   $("#userModal").css("display", "block");
 });
 

@@ -231,7 +231,7 @@ body {
   display: none;
   position: fixed;
   z-index: 1;
-  padding-top: 100px;
+  padding-top: 20em;
   left: 0;
   top: 0;
   width: 100%;
@@ -247,7 +247,6 @@ body {
   margin: auto;
   padding: 0;
   width: 60%;
-  height: 24em;
   -webkit-animation-name: animatetop;
   -webkit-animation-duration: 0.4s;
 }
@@ -273,18 +272,55 @@ body {
 #modalUserName {
   color: #fff;
   padding-top: 0.3em;
+  margin-bottom: 0;
 }
 
 #modalProfilePicture {
   margin-right: 1em;
-  margin-top: 1.25em;
+  margin-top: 0.8em;
   float: left;
   border-radius: 50%;
-  width: 40px;
+  width: 80px;
 }
 
 #modalDiscriminator {
-  color: hsla(0,0%,100%,.6)
+  color: hsla(0, 0%, 100%, 0.6);
+  margin-top: 0.5em;
+}
+
+.modalRoleList {
+  flex-wrap: wrap;
+  padding: 0;
+  list-style: none;
+}
+
+.modalRole {
+  border: 1px solid;
+  border-radius: 11px;
+  box-sizing: border-box;
+  height: 22px;
+  margin: 0 4px 4px 0;
+  padding: 4px;
+  align-items: center;
+  border-color: rgba(185, 187, 190, 0.6);
+  display: inline-flex;
+}
+
+.modalRoleColor {
+  background-color: rgb(185, 187, 190);
+  border-radius: 50%;
+  height: 12px;
+  margin-right: 4px;
+  width: 12px;
+}
+
+.modalRoleName {
+  color: hsla(0,0%,100%,.8);
+  margin-right: 4px;
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 @-webkit-keyframes animatetop {

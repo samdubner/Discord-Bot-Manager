@@ -4,6 +4,9 @@ const BrowserWindow = electron.BrowserWindow;
 const dialog = electron.dialog;
 const Menu = electron.Menu;
 
+
+const autoUpdater = require("electron-updater").autoUpdater;
+
 //moved the menu and the functions that belong with it
 //to a different file to reduce clutter
 const menu = require("./app/menu.js");
@@ -35,7 +38,10 @@ app.on("ready", function() {
 
   mainWindow.focus();
 
-  const page = mainWindow.webContents;
+  autoUpdater
+  .checkForUpdates()
+  .then(UpdateCheckResult => console.log(UpdateCheckResult))
+  .catch(console.error());
 
   const menu = Menu.buildFromTemplate(template);
   Menu.setApplicationMenu(menu);
@@ -44,13 +50,6 @@ app.on("ready", function() {
     app.quit();
   });
 });
-
-const autoUpdater = require("electron-updater").autoUpdater;
-
-autoUpdater
-  .checkForUpdates()
-  .then(UpdateCheckResult => console.log(UpdateCheckResult))
-  .catch(console.error());
 
 autoUpdater.on("update-downloaded", info => {
   // Restart the app and install the update

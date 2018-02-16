@@ -106,15 +106,17 @@ function appendMessage(message, isDM) {
   var br = $(document.createElement("br"));
   var messageR = $(document.createElement("span"));
   var pfp = $(document.createElement("img"));
-  var i = $(document.createElement("i"));
+  if(message.deletable) {
+    var i = $(document.createElement("i"));
+    i.addClass("material-icons md-inactive md-dark md-18");
+    i.attr("id", message.id);
+    i.html("delete");
+  }
   messageT.addClass("message-time");
-  i.addClass("material-icons md-inactive md-dark md-18");
-  i.attr("id", message.id);
-  i.html("delete");
   pfp.attr("src", message.author.displayAvatarURL);
   pfp.addClass("pfp");
+  pfp.attr("id", message.author.id);
   messageA.addClass("message-author");
-  messageA.attr("id", message.author.id);
   var colorS;
   if (!isDM) {
     colorS = message.member.displayHexColor;
@@ -137,7 +139,7 @@ function appendMessage(message, isDM) {
   $(messageC).append(pfp);
   $(messageC).append(messageA);
   $(messageC).append(messageT);
-  $(messageC).append(i);
+  if(message.deletable) $(messageC).append(i);
   $(messageC).append(br);
   $(messageC).append(messageR);
   message.attachments.forEach(attachment => {
@@ -230,7 +232,29 @@ $(document).on("click", ".message-container", function() {
   getMessages(sendChannel);
 });
 
-$(document).on("click", ".message-author", function() {
+function getModalRoles(member) {
+  $("#modalRoleList").empty();
+  member.roles.sort((a, b) => b.position - a.position).forEach(role => {
+    if (role.name != "@everyone") {
+      var roleElement = $(document.createElement("li"));
+      var roleColor = $(document.createElement("div"));
+      var roleName = $(document.createElement("div"));
+      roleElement.addClass("modalRole");
+      roleColor.addClass("modalRoleColor");
+      roleName.addClass("modalRoleName");
+      roleName.html(role.name);
+      var color =
+        role.hexColor == "#000000" ? "hsla(0,0%,100%,.8)" : role.hexColor;
+      roleElement.css("border-color", color);
+      roleColor.css("background-color", color);
+      $("#modalRoleList").append(roleElement);
+      $(roleElement).append(roleColor);
+      $(roleElement).append(roleName);
+    }
+  });
+}
+
+$(document).on("click", ".pfp", function() {
   var member = bot.guilds.get(serverId).members.get($(this).attr("id"));
   $("#modalProfilePicture").attr("src", member.user.displayAvatarURL);
   var nickname =
@@ -239,6 +263,7 @@ $(document).on("click", ".message-author", function() {
   $("#modalDiscriminator").html(
     `${member.user.username}#${member.user.discriminator}`
   );
+  getModalRoles(member);
   $("#userModal").css("display", "block");
 });
 

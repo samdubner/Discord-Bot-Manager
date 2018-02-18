@@ -71,16 +71,26 @@ function getServers() {
 function getDMs() {
   console.log("fetching dms...");
   bot.channels.forEach(function(channel) {
-    if (channel.type != "dm") return;
+    if (channel.type != "dm" && channel.type != "group") return;
     var serverLabel = $(document.createElement("h3"));
     var serverContainer = $(document.createElement("div"));
     var icon = $(document.createElement("img"));
     serverContainer.addClass("dm-container");
     serverContainer.attr("id", channel.id);
-    serverContainer.attr("name", channel.recipient.username);
-    serverLabel.html(channel.recipient.username);
     serverLabel.addClass("dm");
-    icon.attr("src", channel.recipient.displayAvatarURL);
+    if (channel.type == "dm") {
+      serverContainer.attr("name", channel.recipient.username);
+      serverLabel.html(channel.recipient.username);
+      icon.attr("src", channel.recipient.displayAvatarURL);
+    } else {
+      var names = "";
+      channel.recipients
+        .array()
+        .forEach(user => (names += user.username + ", "));
+      serverContainer.attr("name", channel.recipients.first().username);
+      serverLabel.html(names.trim().slice(0, -1));
+      icon.attr("src", "../../icons/group.png");
+    }
     icon.attr("id", "icon");
     icon.addClass("pfp");
     $(".left-bar").append(serverContainer);
@@ -99,6 +109,7 @@ bot.on("ready", function() {
 
 //adds message to the text box
 function appendMessage(message, isDM) {
+  if (message.type != "DEFAULT") return;
   var messageC = $(document.createElement("div"));
   var messageA = $(document.createElement("span"));
   var messageT = $(document.createElement("span"));
@@ -156,7 +167,10 @@ function appendMessage(message, isDM) {
 bot.on("message", message => {
   if (channelSelected == true) {
     if (message.channel.id == sendChannel) {
-      appendMessage(message, message.channel.type == "dm");
+      appendMessage(
+        message,
+        message.channel.type == "dm" || message.channel.type == "group"
+      );
     }
   }
 });
@@ -165,7 +179,10 @@ bot.on("message", message => {
 function reverseSend(messages) {
   var messagesReverse = new Map(Array.from(messages).reverse());
   messagesReverse.forEach(function(messageF) {
-    appendMessage(messageF, messageF.channel.type == "dm");
+    appendMessage(
+      messageF,
+      messageF.channel.type == "dm" || messageF.channel.type == "group"
+    );
   });
 }
 
@@ -174,7 +191,7 @@ function getMessages(id) {
   var channelR = bot.channels.get(id);
   channelR
     .fetchMessages({
-      limit: 50
+      limit: 100
     })
     .then(messages => reverseSend(messages));
 }

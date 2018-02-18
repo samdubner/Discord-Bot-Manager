@@ -12,7 +12,7 @@
     "asar": "true",
     "win": {
       "target": "nsis",
-      "icon": "icon.ico"
+      "icon": "icons/icon.ico"
     },
     "publish": {
       "provider": "github",

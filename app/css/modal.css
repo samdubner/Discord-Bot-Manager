@@ -86,12 +86,25 @@
 }
 
 .modalRoleName {
+  font-size: 14px;
   color: hsla(0, 0%, 100%, 0.8);
   margin-right: 4px;
   max-width: 200px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.modalGame {
+  background-color: #2a2c31;
+  display: flex;
+  font-weight: 700;
+}
+
+.modalGameName {
+  padding: 20px;
+  color: #fff;
+  text-transform: uppercase;
 }
 
 @-webkit-keyframes animatetop {

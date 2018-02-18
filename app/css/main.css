@@ -1,3 +1,7 @@
+* {
+  font-family: 'Open Sans', sans-serif;
+}
+
 html {
   -webkit-tap-highlight-color: transparent;
 }
@@ -204,6 +208,7 @@ body {
 
 .message-image {
   width: 15em;
+  display: block;
 }
 
 .pfp {

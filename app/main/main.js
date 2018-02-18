@@ -285,6 +285,10 @@ $(document).on("click", ".pfp", function() {
   $("#modalDiscriminator").html(
     `${member.user.username}#${member.user.discriminator}`
   );
+  if(member.user.presence.game != null) {
+    $(".modalGameName").html(member.user.presence.game.name)
+    $(".modalGameName").show()
+  }
   getModalRoles(member);
   $("#userModal").css("display", "block");
 });
@@ -296,6 +300,7 @@ var modal = document.getElementById("userModal");
 window.onclick = function(event) {
   if (event.target == modal) {
     modal.style.display = "none";
+    $(".modalGameName").hide()
   }
 };
 

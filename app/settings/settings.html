@@ -10,7 +10,24 @@
 
 <body>
 
+  <div class="display-holder">
+    <div class="left-bar">
+      <div class="options-container">
+        <h3 class="options-title selected">User Settings</h3>
+      </div>
+    </div>
+    <div class="options">
+      <div id="user-options">
+        <h3 id="user-options-title">Add Users</h3>
+        <input id="user-name" type="text" placeholder="Token Name"/>
+        <input id="user-token" type="text" placeholder="User Token"/>
+        <input id="add-user-button" type="button" value="Add" />
+      </div>
+    </div>
+  </div>
+
 </body>
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js" onload="window.$ = window.jQuery = module.exports;"></script>
 <script>
   require('./settings.js')

@@ -10,36 +10,104 @@ const swal = require("sweetalert2");
 
 const fs = require("fs");
 
-function changeToken() {
-  swal({
-    title: '<h3 id="changeTokenTitle">Change Bot Token</h3>',
+function addToken(firstTime) {
+  if (firstTime) {
+    var object = {
+      keys: []
+    };
+
+    string = JSON.stringify(object);
+
+    fs.writeFileSync(app.getPath("appData") + "/DBM/save.txt", string);
+  }
+
+  swal.setDefaults({
+    title: '<h3 id="changeTokenTitle">Add Bot Token</h3>',
     input: "text",
     inputPlaceholder: "Please enter your bot token",
     showCancelButton: false,
     allowOutsideClick: false,
     background: "#2f3136",
+    progressSteps: ["1", "2"],
     inputAttributes: {
       id: "changeTokenText"
     },
     inputValidator: value => {
       return !value && "You cannot submit a blank space!";
     }
+  });
+
+  var steps = [
+    {
+      inputPlaceholder: "Please enter the name for your token."
+    },
+    {
+      inputPlaceholder: "Please enter your bot token."
+    }
+  ];
+
+  swal.queue(steps).then(result => {
+    swal.resetDefaults();
+
+    if (result.value) {
+      var string = fs.readFileSync(
+        app.getPath("appData") + "/DBM/save.txt",
+        "utf8"
+      );
+      var object = JSON.parse(string);
+
+      object.keys.push({
+        name: result.value[0],
+        token: result.value[1]
+      });
+
+      string = JSON.stringify(object);
+
+      fs.writeFileSync(app.getPath("appData") + "/DBM/save.txt", string);
+    }
+  });
+}
+
+function changeToken() {
+  var string = fs.readFileSync(
+    app.getPath("appData") + "/DBM/save.txt",
+    "utf8"
+  );
+  var object = JSON.parse(string);
+  var names = {};
+  object.keys.forEach(key => (names[key.token] = key.name));
+  swal({
+    title: '<h3 id="changeTokenTitle">Change Current Token</h3>',
+    input: "select",
+    inputOptions: names,
+    inputPlaceholder: "Select Token",
+    showCancelButton: false,
+    allowOutsideClick: false,
+    background: "#2f3136"
   }).then(result => {
-    var key = {
-      key: result.value
-    };
-
-    var string = JSON.stringify(key);
-
-    fs.writeFileSync(app.getPath("appData") + "/DBM/save.txt", string);
+    object.keys.forEach(key => {
+      if (key.token == result.value) {
+        object.keys.sort(function(x, y) {
+          return x == key ? -1 : y == key ? 1 : 0;
+        });
+        string = JSON.stringify(object);
+        fs.writeFileSync(app.getPath("appData") + "/DBM/save.txt", string);
+        app.relaunch()
+        app.exit()
+      }
+    });
   });
 }
 
 if (!fs.existsSync(app.getPath("appData") + "/DBM/save.txt")) {
-  changeToken();
+  addToken(true);
 }
 
-ipcRenderer.on("changeToken", function(event, data) {
+ipcRenderer.on("addToken", function(event, data) {
+  addToken(false);
+});
+
+ipcRenderer.on("changeCurrentToken", function(event, data) {
   changeToken();
 });
 
@@ -118,7 +186,7 @@ function appendMessage(message, isDM) {
   var pfp = $(document.createElement("img"));
   if (message.deletable) {
     var i = $(document.createElement("i"));
-    i.addClass("material-icons md-inactive md-dark md-18");
+    i.addClass("material-icons md-inactive md-dark md-18 trash");
     i.attr("id", message.id);
     i.html("delete");
   }
@@ -226,6 +294,7 @@ $(document).on("click", ".dm-container", function(e) {
   $(".message-display").empty();
   channelSelected = true;
   sendChannel = $(this).attr("id");
+  serverId = $(this).attr("id");
   $("#message-text").attr("placeholder", "Message @" + $(this).attr("name"));
   $(".dm").removeClass("make-gray");
   $(this)
@@ -285,9 +354,9 @@ $(document).on("click", ".pfp", function() {
   $("#modalDiscriminator").html(
     `${member.user.username}#${member.user.discriminator}`
   );
-  if(member.user.presence.game != null) {
-    $(".modalGameName").html(member.user.presence.game.name)
-    $(".modalGameName").show()
+  if (member.user.presence.game != null) {
+    $(".modalGameName").html(member.user.presence.game.name);
+    $(".modalGameName").show();
   }
   getModalRoles(member);
   $("#userModal").css("display", "block");
@@ -300,7 +369,7 @@ var modal = document.getElementById("userModal");
 window.onclick = function(event) {
   if (event.target == modal) {
     modal.style.display = "none";
-    $(".modalGameName").hide()
+    $(".modalGameName").hide();
   }
 };
 
@@ -367,10 +436,10 @@ function login() {
       "utf8"
     );
     var object = JSON.parse(string);
-    var key = object.key;
+    var key = object.keys;
     var error = false;
     bot
-      .login(key)
+      .login(key[0].token)
       .then(token => {
         console.log("logging in...");
         online = true;

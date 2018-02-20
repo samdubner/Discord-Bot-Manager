@@ -7,9 +7,14 @@ const BrowserWindow = electron.BrowserWindow;
 const fs = require("fs");
 
 //change the token for the bot
+function add() {
+  const mainWindow = BrowserWindow.getFocusedWindow();
+  mainWindow.webContents.send("addToken");
+}
+
 function change() {
   const mainWindow = BrowserWindow.getFocusedWindow();
-  mainWindow.webContents.send("changeToken");
+  mainWindow.webContents.send("changeCurrentToken");
 }
 
 //the about page is just the app version 11/10
@@ -76,7 +81,13 @@ module.exports = {
         label: "Edit",
         submenu: [
           {
-            label: "Change Bot Key",
+            label: "Add Token",
+            click: function() {
+              add();
+            }
+          },
+          {
+            label: "Change Current Token",
             click: function() {
               change();
             }

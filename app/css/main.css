@@ -219,6 +219,10 @@ body {
   margin-top: 1em;
 }
 
+.trash {
+  cursor: pointer;
+}
+
 #changeTokenTitle {
   margin-bottom: 0;
   color: lightgray;

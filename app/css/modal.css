@@ -20,6 +20,8 @@
   width: 40em;
   -webkit-animation-name: animatetop;
   -webkit-animation-duration: 0.4s;
+  animation-name: animatetop;
+  animation-duration: 0.4s;
 }
 
 .modal-header {

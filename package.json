@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "electron .",
+    "build": "build",
     "dist": "build --publish=always"
   },
   "build": {

@@ -458,9 +458,11 @@ $("#switch").click(function() {
   if ($(this).val() == "DMs") {
     $(this).val("Servers");
     $("#back").hide();
+    $('#search-text').show();
     getDMs();
   } else {
-    $(this).val("DMs");
+    $(this).val("DMs")
+    $('#search-text').hide();
     getServers();
   }
 });

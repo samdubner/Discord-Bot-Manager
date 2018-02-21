@@ -32,12 +32,13 @@
   <div class="display-holder">
     <div class="button-container">
       <input type="button" class="buttons" id="back" value="Back" hidden />
+      <input type="text" id="search-text" onkeyup="searchFunction()" placeholder="Search Users " hidden></input>
       <input type="button" class="buttons" id="switch" value="DMs" hidden />
     </div>
     <div class="left-bar">
     </div>
     <div class="user-container">
-      <img  id="user-pfp" src="" />
+      <img id="user-pfp" src="" />
       <h3 id="user-name">Logging in...</h3>
     </div>
     <div class="message-display">
@@ -50,6 +51,22 @@
 </body>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js" onload="window.$ = window.jQuery = module.exports;"></script>
 <script>
+  $.expr[":"].contains = $.expr.createPseudo(function (arg) {
+    return function (elem) {
+      return $(elem).text().toUpperCase().indexOf(arg.toUpperCase()) >= 0;
+    };
+  });
+
+
+  //search funtion to look through all the games
+  function searchFunction() {
+    var searchTerm = $('#search-text').val().toLowerCase();
+    $(".dm-container")
+      .hide()
+      .filter(":contains('" + searchTerm + "')")
+      .show();
+  }
+
   require('./main.js')
 </script>
 

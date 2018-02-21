@@ -37,9 +37,16 @@ $(document).on(
 );
 
 $(document).on("click", ".trash", function() {
-  removed = object.keys.filter(function(el) {
-    return el.name !== $(this).parent().attr("id");
+  var currentTrash = $(this).parent();
+  removed = object.keys.filter(function(token) {
+    console.log(`${currentTrash.attr("id")}: ${token.name}`);
+    return token.name !== currentTrash.attr("id");
   });
-  $(this).parent().remove();
-  console.log(removed)
+  object.keys = removed;
+  $(this)
+    .parent()
+    .remove();
+
+  string = JSON.stringify(object);
+  fs.writeFileSync(app.getPath("appData") + "/DBM/save.txt", string);
 });

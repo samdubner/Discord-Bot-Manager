@@ -39,7 +39,6 @@ $(document).on(
 $(document).on("click", ".trash", function() {
   var currentTrash = $(this).parent();
   removed = object.keys.filter(function(token) {
-    console.log(`${currentTrash.attr("id")}: ${token.name}`);
     return token.name !== currentTrash.attr("id");
   });
   object.keys = removed;

@@ -44,6 +44,7 @@ body {
   margin-top: 1em;
   border-radius: 50%;
   width: 30px;
+  cursor: pointer;
 }
 
 .message {
@@ -243,6 +244,7 @@ body {
   width: 20px;
   margin-right: 0.5em;
   margin-top: 1em;
+  cursor: pointer;
 }
 
 .trash {

@@ -55,6 +55,7 @@ body {
 #user-options-title {
   text-align: center;
   color: #fff;
+  text-decoration: underline;
 }
 
 #user-options {
@@ -69,6 +70,7 @@ body {
 
 .trash {
   cursor: pointer;
+  vertical-align: middle;
 }
 
 ::-webkit-scrollbar {

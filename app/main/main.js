@@ -410,6 +410,10 @@ window.onclick = function(event) {
 $(document).on("click", "#back", function() {
   $(".left-bar").empty();
   $(".message-display").empty();
+  $("#message-text").attr(
+    "placeholder",
+    "Please select a channel to send messages in"
+  );
   sendChannel = "";
   $(this).hide();
   getServers();
@@ -428,6 +432,10 @@ $(document).on("click", ".material-icons", function() {
 });
 
 $("#switch").click(function() {
+  $("#message-text").attr(
+    "placeholder",
+    "Please select a channel to send messages in"
+  );
   sendChannel = "";
   $(".left-bar").empty();
   $(".message-display").empty();
@@ -479,7 +487,7 @@ function login() {
         online = true;
         $("#message-text").attr(
           "placeholder",
-          "Please select channel to send message to"
+          "Please select a channel to send messages in"
         );
       })
       .catch(err => {

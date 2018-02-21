@@ -52,8 +52,23 @@ body {
   color: #faa61a;
 }
 
-#user-options {
+#user-options-title {
+  text-align: center;
+  color: #fff;
+}
 
+#user-options {
+  margin-left: 1em;
+  color: #fff;
+}
+
+.token-name {
+  display: inline-flex;
+  margin-right: 0.5em;
+}
+
+.trash {
+  cursor: pointer;
 }
 
 ::-webkit-scrollbar {

@@ -92,8 +92,8 @@ function changeToken() {
         });
         string = JSON.stringify(object);
         fs.writeFileSync(app.getPath("appData") + "/DBM/save.txt", string);
-        app.relaunch()
-        app.exit()
+        app.relaunch();
+        app.exit();
       }
     });
   });
@@ -172,6 +172,8 @@ bot.on("ready", function() {
   console.log("logged in!");
   $("#switch").show();
   $(".message-display").empty();
+  $("#user-name").html(bot.user.username);
+  $("#user-pfp").attr("src", bot.user.displayAvatarURL);
   getServers();
 });
 
@@ -340,6 +342,24 @@ function getModalRoles(member) {
   });
 }
 
+function warn() {
+  var warningElement = $(document.createElement("li"));
+  var warningMessage = $(document.createElement("div"));
+  warningElement.addClass("modalRole");
+  warningMessage.addClass("modalRoleName");
+  if (bot.user.bot) {
+    warningMessage.html("This is a bot account!");
+    warningElement.css("border-color", "#5be8d9");
+  } else {
+    warningMessage.html(
+      "We have detected that this is a user account, please only use this app for bots!"
+    );
+    warningElement.css("border-color", "#ff0000");
+  }
+  $("#modalRoleList").append(warningElement);
+  $(warningElement).append(warningMessage);
+}
+
 $(document).on("click", ".message-author", function() {
   var message = $("#message-text").val() + ` <@${$(this).attr("id")}>`;
   $("#message-text").val(message.trim());
@@ -359,6 +379,20 @@ $(document).on("click", ".pfp", function() {
     $(".modalGameName").show();
   }
   getModalRoles(member);
+  $("#userModal").css("display", "block");
+});
+
+$(document).on("click", "#user-pfp", function() {
+  $("#modalProfilePicture").attr("src", bot.user.displayAvatarURL);
+  $("#modalUserName").html(bot.user.username);
+  $("#modalDiscriminator").html(
+    `${bot.user.username}#${bot.user.discriminator}`
+  );
+  if (bot.user.presence.game != null) {
+    $(".modalGameName").html(bot.user.presence.game.name);
+    $(".modalGameName").show();
+  }
+  warn();
   $("#userModal").css("display", "block");
 });
 

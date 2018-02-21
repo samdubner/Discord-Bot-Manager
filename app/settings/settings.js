@@ -6,36 +6,40 @@ const fs = require("fs");
 var string = fs.readFileSync(app.getPath("appData") + "/DBM/save.txt", "utf8");
 var object = JSON.parse(string);
 
-object.keys.forEach(user => {
-  var userDiv = $(document.createElement("h4"));
-  userDiv.html(user.name);
-  $("#user-options").append(userDiv);
+object.keys.forEach(token => {
+  var tokenDiv = $(document.createElement("div"));
+  var tokenName = $(document.createElement("h4"));
+  var i = $(document.createElement("i"));
+  tokenName.html(token.name);
+  tokenName.addClass("token-name");
+  tokenDiv.attr("id", `${token.name}`);
+  tokenDiv.addClass("token-div");
+  i.addClass("material-icons md-inactive md-dark md-18 trash");
+  i.attr("id", `${token.name}-delete`);
+  i.html("delete");
+  i.css("display", "none");
+  $("#user-options").append(tokenDiv);
+  $(tokenDiv).append(tokenName);
+  $(tokenDiv).append(i);
+  $(tokenDiv).append("<br>");
 });
 
-$(document).on("click", "#add-user-button", function() {
-  if (
-    $("#user-name")
-      .val()
-      .trim() == ""
-  ) {
-    alert("Do not leave the name blank!");
-    return;
-  } else if (
-    $("#user-token")
-      .val()
-      .trim() == ""
-  ) {
-    alert("Do not leave the token blank!");
-    return;
-  }
+$(document).on(
+  {
+    mouseenter: function() {
+      $(`#${$(this).attr("id")}-delete`).show();
+    },
+    mouseleave: function() {
+      $(`#${$(this).attr("id")}-delete`).hide();
+    }
+  },
+  ".token-div"
+);
 
-  var name = $("#user-name").val();
-  var token = $("#user-token").val();
-  $("#user-name").val("");
-  $("#user-token").val("");
-
-  var userDiv = $(document.createElement("h4"));
-  userDiv.html(user.name);
-  $("#user-options").append(userDiv);
-
+$(document).on("click", ".trash", function() {
+  removed = object.keys.filter(function(el) {
+    return el.name !== $(this).parent().attr("id");
+  });
+  $(this).parent().remove();
+  console.log(removed)
 });

@@ -20,6 +20,32 @@ body {
   margin: 0;
 }
 
+.user-container {
+  background-color: #2a2c31;
+  position: absolute;
+  bottom: 0;
+  text-align: center;
+  height: 7%;
+  width: 30%;
+  margin: 0;
+}
+
+#user-name {
+  margin: 0;
+  margin-top: 0.9em;
+  margin-left: 2em;
+  color: #b9bab6;
+  float: left;
+}
+
+#user-pfp {
+  margin-left: 4em;
+  float: left;
+  margin-top: 1em;
+  border-radius: 50%;
+  width: 30px;
+}
+
 .message {
   display: inline-block;
   text-align: center;
@@ -99,11 +125,11 @@ body {
   position: absolute;
   margin: 0;
   left: 0;
-  bottom: 0;
+  bottom: 7%;
   width: 30%;
   background-color: #2f3136;
   overflow-y: scroll;
-  height: 93%;
+  height: 86%;
 }
 
 .message-display {

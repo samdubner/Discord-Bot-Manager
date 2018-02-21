@@ -42,7 +42,6 @@
 
 #modalUserName {
   color: #fff;
-  padding-top: 0.3em;
   margin-bottom: 0;
 }
 
@@ -89,7 +88,6 @@
   font-size: 14px;
   color: hsla(0, 0%, 100%, 0.8);
   margin-right: 4px;
-  max-width: 200px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;

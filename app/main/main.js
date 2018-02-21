@@ -6,6 +6,8 @@ const BrowserWindow = remote.BrowserWindow;
 const app = remote.app;
 const ipcRenderer = require("electron").ipcRenderer;
 
+var shell = require('electron').shell;
+
 const swal = require("sweetalert2");
 
 const fs = require("fs");
@@ -177,6 +179,19 @@ bot.on("ready", function() {
   getServers();
 });
 
+function urlify(text) {
+  var urlRegex = /(https?:\/\/[^\s]+)/g;
+  return text.replace(urlRegex, function(url) {
+    return '<a href="' + url + '">' + url + "</a>";
+  });
+}
+
+//open links externally by default
+$(document).on('click', 'a[href^="http"]', function(event) {
+    event.preventDefault();
+    shell.openExternal(this.href);
+});
+
 //adds message to the text box
 function appendMessage(message, isDM) {
   if (message.type != "DEFAULT") return;
@@ -215,7 +230,8 @@ function appendMessage(message, isDM) {
   }
   messageA.html(name);
   messageT.html(message.createdAt);
-  messageR.html(message.cleanContent);
+  var text = urlify(message.cleanContent);
+  messageR.html(text);
   $(".message-display").append(messageC);
   $(messageC).append(pfp);
   $(messageC).append(messageA);

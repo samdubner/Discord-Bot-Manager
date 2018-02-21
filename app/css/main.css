@@ -11,6 +11,10 @@ body {
   margin: 0;
 }
 
+a {
+  color: #0096cf;
+}
+
 .button-container {
   position: absolute;
   top: 0;

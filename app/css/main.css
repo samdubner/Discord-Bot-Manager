@@ -15,12 +15,22 @@ a {
   color: #0096cf;
 }
 
+code {
+  background: #2f3136;
+  color: #839496;
+  display: block;
+  overflow-x: auto;
+  padding: .5em;
+  font-family: monospace;
+  border-radius: 5px;
+}
+
 .button-container {
   position: absolute;
   top: 0;
   text-align: center;
   height: 7%;
-  width: 30%;
+  width: 20%;
   margin: 0;
 }
 
@@ -30,7 +40,7 @@ a {
   bottom: 0;
   text-align: center;
   height: 7%;
-  width: 30%;
+  width: 20%;
   margin: 0;
 }
 
@@ -105,6 +115,7 @@ a {
   padding: 0;
   width: 70%;
   border: 2px #2f3136 solid;
+  display: none;
 }
 
 .display-container {
@@ -117,13 +128,13 @@ a {
   height: 2em;
   position: absolute;
   bottom: 0;
-  left: 30%;
+  left: 20%;
   background-color: #36393e;
   color: #bebfc1;
   text-align: center;
   padding: 0;
   margin: 0;
-  width: 70%;
+  width: 80%;
   border: 0;
   border-top: 2px #2f3136 solid;
 }
@@ -144,7 +155,7 @@ a {
   margin: 0;
   left: 0;
   bottom: 7%;
-  width: 30%;
+  width: 20%;
   background-color: #2f3136;
   overflow-y: scroll;
   height: 86%;
@@ -152,7 +163,7 @@ a {
 
 .message-display {
   position: absolute;
-  left: 30%;
+  left: 20%;
   top: 0;
   bottom: 0;
   right: 0;
@@ -171,12 +182,18 @@ a {
 }
 
 .channel {
-  color: #b9bab6;
+  color: #72767d;
+  padding-left: 2em;
+}
+
+.channel:hover {
+  color: #b9bbbe;
 }
 
 .message-container {
   width: auto;
-  text-align: center;
+  padding-left: 2em;
+  text-align: left;
   border-bottom: 1px solid #3e4146;
 }
 
@@ -202,12 +219,16 @@ a {
 }
 
 .dm {
-  color: #b9bab6;
+  color: #72767d;
   margin-left: 2em;
 }
 
-.make-gray {
-  color: #faa61a;
+.dm:hover {
+  color: #b9bbbe;
+}
+
+.highlight {
+  color: #b9bbbe;
 }
 
 .message-holder {
@@ -231,7 +252,7 @@ a {
   position: relative;
   top: -4px;
   padding: 0;
-  /* margin-bottom: 0; */
+  cursor: default;
 }
 
 .message-time {

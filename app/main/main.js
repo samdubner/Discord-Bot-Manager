@@ -6,7 +6,9 @@ const BrowserWindow = remote.BrowserWindow;
 const app = remote.app;
 const ipcRenderer = require("electron").ipcRenderer;
 
-var shell = require('electron').shell;
+const shell = require("electron").shell;
+
+const markdown = require( "markdown" ).markdown;
 
 const swal = require("sweetalert2");
 
@@ -119,6 +121,8 @@ var channelSelected = false;
 var serverId;
 var sendChannel;
 
+var firstMessageID;
+
 function getServers() {
   console.log("fetching servers...");
   bot.guilds.forEach(function(server) {
@@ -157,8 +161,13 @@ function getDMs() {
       channel.recipients
         .array()
         .forEach(user => (names += user.username + ", "));
-      serverContainer.attr("name", channel.recipients.first().username);
-      serverLabel.html(names.trim().slice(0, -1));
+      if (channel.name == null) {
+        serverContainer.attr("name", channel.recipients.first().username);
+        serverLabel.html(names.trim().slice(0, -1));
+      } else {
+        serverContainer.attr("name", channel.name);
+        serverLabel.html(channel.name);
+      }
       icon.attr("src", "../../icons/group.png");
     }
     icon.attr("id", "icon");
@@ -187,13 +196,13 @@ function urlify(text) {
 }
 
 //open links externally by default
-$(document).on('click', 'a[href^="http"]', function(event) {
-    event.preventDefault();
-    shell.openExternal(this.href);
+$(document).on("click", 'a[href^="http"]', function(event) {
+  event.preventDefault();
+  shell.openExternal(this.href);
 });
 
 //adds message to the text box
-function appendMessage(message, isDM) {
+function appendMessage(message, isDM, prepend) {
   if (message.type != "DEFAULT") return;
   var messageC = $(document.createElement("div"));
   var messageA = $(document.createElement("span"));
@@ -223,6 +232,7 @@ function appendMessage(message, isDM) {
   messageA.css("color", colorS);
   messageR.addClass("message-received");
   messageC.addClass("message-holder");
+  messageC.attr("id", message.id);
   if (isDM || message.member.nickname == null) {
     var name = message.author.username;
   } else {
@@ -231,8 +241,12 @@ function appendMessage(message, isDM) {
   messageA.html(name);
   messageT.html(message.createdAt);
   var text = urlify(message.cleanContent);
-  messageR.html(text);
-  $(".message-display").append(messageC);
+  messageR.html(markdown.toHTML(text));
+  if (!prepend) {
+    $(".message-display").append(messageC);
+  } else {
+    $(".message-display").prepend(messageC);
+  }
   $(messageC).append(pfp);
   $(messageC).append(messageA);
   $(messageC).append(messageT);
@@ -246,7 +260,8 @@ function appendMessage(message, isDM) {
         .addClass("message-image")
     );
   });
-  $(".message-display").scrollTop($(".message-display")[0].scrollHeight);
+  if (!prepend)
+    $(".message-display").scrollTop($(".message-display")[0].scrollHeight);
 }
 
 //adds message to text box when a message can be seen by the bot
@@ -255,7 +270,8 @@ bot.on("message", message => {
     if (message.channel.id == sendChannel) {
       appendMessage(
         message,
-        message.channel.type == "dm" || message.channel.type == "group"
+        message.channel.type == "dm" || message.channel.type == "group",
+        false
       );
     }
   }
@@ -263,11 +279,13 @@ bot.on("message", message => {
 
 //puts the messages in reverse order since they come in newest to oldest
 function reverseSend(messages) {
+  firstMessageID = messages.last().id;
   var messagesReverse = new Map(Array.from(messages).reverse());
   messagesReverse.forEach(function(messageF) {
     appendMessage(
       messageF,
-      messageF.channel.type == "dm" || messageF.channel.type == "group"
+      messageF.channel.type == "dm" || messageF.channel.type == "group",
+      false
     );
   });
 }
@@ -297,7 +315,7 @@ $(document).on("click", ".server-container", function(e) {
   textChannels.forEach(function(channel) {
     var message = $(document.createElement("p"));
     var messageContainer = $(document.createElement("div"));
-    messageContainer.addClass("message-container");
+    messageContainer.addClass("channel-container");
     messageContainer.attr("id", channel.id);
     messageContainer.attr("name", channel.name);
     messageContainer.attr("server", channel.guild.name);
@@ -314,24 +332,24 @@ $(document).on("click", ".dm-container", function(e) {
   sendChannel = $(this).attr("id");
   serverId = $(this).attr("id");
   $("#message-text").attr("placeholder", "Message @" + $(this).attr("name"));
-  $(".dm").removeClass("make-gray");
+  $(".dm").removeClass("highlight");
   $(this)
     .find(".dm")
-    .addClass("make-gray");
+    .addClass("highlight");
   $(".message-display").empty();
   getMessages(sendChannel);
 });
 
 //shows messages in the channel that was clicked
-$(document).on("click", ".message-container", function() {
+$(document).on("click", ".channel-container", function() {
   channelSelected = true;
   sendChannel = $(this).attr("id");
   var name = $(this).attr("name");
   var server = $(this).attr("server");
   $("#message-text").attr("placeholder", "Message #" + name + " in " + server);
   var clickedChannel = $(this).find(".channel");
-  $(".channel").removeClass("make-gray");
-  clickedChannel.addClass("make-gray");
+  $(".channel").removeClass("highlight");
+  clickedChannel.addClass("highlight");
   $(".message-display").empty();
   getMessages(sendChannel);
 });
@@ -458,11 +476,11 @@ $("#switch").click(function() {
   if ($(this).val() == "DMs") {
     $(this).val("Servers");
     $("#back").hide();
-    $('#search-text').show();
+    $("#search-text").show();
     getDMs();
   } else {
-    $(this).val("DMs")
-    $('#search-text').hide();
+    $(this).val("DMs");
+    $("#search-text").hide();
     getServers();
   }
 });
@@ -486,6 +504,29 @@ $("#message-text").on("keydown", function(e) {
       .get(sendChannel)
       .send(document.getElementById("message-text").value);
     $("#message-text").val("");
+  }
+});
+
+$(".message-display").scroll(function() {
+  if ($(".message-display").scrollTop() == 0) {
+    var channelR = bot.channels.get(sendChannel);
+    channelR
+      .fetchMessages({
+        limit: 50,
+        before: firstMessageID
+      })
+      .then(messages => {
+        if (messages.size == 0) return;
+        firstMessageID = messages.last().id;
+        messages.forEach(message =>
+          appendMessage(
+            message,
+            messages.first().channel.type == "dm" ||
+              messages.first().channel.type == "group",
+            true
+          )
+        );
+      });
   }
 });
 

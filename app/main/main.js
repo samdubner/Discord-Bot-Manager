@@ -376,6 +376,7 @@ function getModalRoles(member) {
 }
 
 function warn() {
+  $("#modalRoleList").empty();
   var warningElement = $(document.createElement("li"));
   var warningMessage = $(document.createElement("div"));
   warningElement.addClass("modalRole");

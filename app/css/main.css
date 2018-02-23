@@ -1,5 +1,6 @@
 * {
   font-family: 'Open Sans', sans-serif;
+  margin: 0;
 }
 
 html {
@@ -18,8 +19,9 @@ a {
 code {
   background: #2f3136;
   color: #839496;
-  display: block;
-  overflow-x: auto;
+  display: inline-block;
+  overflow-y: visible;
+  /* overflow-x: auto; */
   padding: .5em;
   font-family: monospace;
   border-radius: 5px;
@@ -113,7 +115,7 @@ code {
   color: #bebfc1;
   text-align: center;
   padding: 0;
-  width: 70%;
+  width: 60%;
   border: 2px #2f3136 solid;
   display: none;
 }
@@ -181,6 +183,10 @@ code {
   color: #b9bab6;
 }
 
+.channel-container {
+  margin-bottom: 1em;
+}
+
 .channel {
   color: #72767d;
   padding-left: 2em;
@@ -206,6 +212,7 @@ code {
 .server-container {
   width: auto;
   margin-left: 1em;
+  margin-bottom: 1em;
 }
 
 .server {
@@ -216,6 +223,7 @@ code {
 .dm-container {
   width: auto;
   margin-left: 1em;
+  margin-bottom: 0.5em;
 }
 
 .dm {
@@ -243,8 +251,9 @@ code {
   height: auto;
   text-align: left;
   line-height: 2em;
-  max-width: calc(100% - 0.5em);
+  max-width: calc(100% - 1em);
   word-wrap: break-word;
+}
 }
 
 .message-author {
@@ -268,7 +277,7 @@ code {
 .message-received {
   color: #b9bab6;
   display: inline-block;
-  margin-bottom: 0;
+  margin: 0;
 }
 
 .message-image {

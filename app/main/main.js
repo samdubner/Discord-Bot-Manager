@@ -8,7 +8,7 @@ const ipcRenderer = require("electron").ipcRenderer;
 
 const shell = require("electron").shell;
 
-const markdown = require( "markdown" ).markdown;
+const markdown = require("markdown").markdown;
 
 const swal = require("sweetalert2");
 
@@ -124,7 +124,6 @@ var sendChannel;
 var firstMessageID;
 
 function getServers() {
-  console.log("fetching servers...");
   bot.guilds.forEach(function(server) {
     var serverLabel = $(document.createElement("h3"));
     var serverContainer = $(document.createElement("div"));
@@ -143,18 +142,17 @@ function getServers() {
 }
 
 function getDMs() {
-  console.log("fetching dms...");
   bot.channels.forEach(function(channel) {
     if (channel.type != "dm" && channel.type != "group") return;
-    var serverLabel = $(document.createElement("h3"));
-    var serverContainer = $(document.createElement("div"));
+    var dmLabel = $(document.createElement("h3"));
+    var dmContainer = $(document.createElement("div"));
     var icon = $(document.createElement("img"));
-    serverContainer.addClass("dm-container");
-    serverContainer.attr("id", channel.id);
-    serverLabel.addClass("dm");
+    dmContainer.addClass("dm-container");
+    dmContainer.attr("id", channel.id);
+    dmLabel.addClass("dm");
     if (channel.type == "dm") {
-      serverContainer.attr("name", channel.recipient.username);
-      serverLabel.html(channel.recipient.username);
+      dmContainer.attr("name", channel.recipient.username);
+      dmLabel.html(channel.recipient.username);
       icon.attr("src", channel.recipient.displayAvatarURL);
     } else {
       var names = "";
@@ -162,25 +160,24 @@ function getDMs() {
         .array()
         .forEach(user => (names += user.username + ", "));
       if (channel.name == null) {
-        serverContainer.attr("name", channel.recipients.first().username);
-        serverLabel.html(names.trim().slice(0, -1));
+        dmContainer.attr("name", "@" + channel.recipients.first().username);
+        dmLabel.html(names.trim().slice(0, -1));
       } else {
-        serverContainer.attr("name", channel.name);
-        serverLabel.html(channel.name);
+        dmContainer.attr("name", channel.name);
+        dmLabel.html(channel.name);
       }
       icon.attr("src", "../../icons/group.png");
     }
     icon.attr("id", "icon");
     icon.addClass("pfp");
-    $(".left-bar").append(serverContainer);
-    $(serverContainer).append(icon);
-    $(serverContainer).append(serverLabel);
+    $(".left-bar").append(dmContainer);
+    $(dmContainer).append(icon);
+    $(dmContainer).append(dmLabel);
   });
 }
 
 //loads all the guilds when the bot is ready to go
 bot.on("ready", function() {
-  console.log("logged in!");
   $("#switch").show();
   $(".message-display").empty();
   $("#user-name").html(bot.user.username);
@@ -331,7 +328,7 @@ $(document).on("click", ".dm-container", function(e) {
   channelSelected = true;
   sendChannel = $(this).attr("id");
   serverId = $(this).attr("id");
-  $("#message-text").attr("placeholder", "Message @" + $(this).attr("name"));
+  $("#message-text").attr("placeholder", "Message " + $(this).attr("name"));
   $(".dm").removeClass("highlight");
   $(this)
     .find(".dm")
@@ -480,7 +477,9 @@ $("#switch").click(function() {
     getDMs();
   } else {
     $(this).val("DMs");
-    $("#search-text").hide();
+    $("#search-text")
+      .hide()
+      .val("");
     getServers();
   }
 });
@@ -542,7 +541,6 @@ function login() {
     bot
       .login(key[0].token)
       .then(token => {
-        console.log("logging in...");
         online = true;
         $("#message-text").attr(
           "placeholder",

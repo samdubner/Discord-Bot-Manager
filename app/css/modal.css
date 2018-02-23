@@ -32,7 +32,7 @@
 }
 
 .modal-body {
-  padding: 2px 16px;
+  padding: 1em 16px;
 }
 
 .modal-footer {
@@ -45,6 +45,8 @@
 #modalUserName {
   color: #fff;
   margin-bottom: 0;
+  margin-top: 0.9em;
+
 }
 
 #modalProfilePicture {
@@ -58,6 +60,7 @@
 #modalDiscriminator {
   color: hsla(0, 0%, 100%, 0.6);
   margin-top: 0.5em;
+  margin-bottom: 1em;
 }
 
 .modalRoleList {

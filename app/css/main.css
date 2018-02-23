@@ -21,7 +21,6 @@ code {
   color: #839496;
   display: inline-block;
   overflow-y: visible;
-  /* overflow-x: auto; */
   padding: .5em;
   font-family: monospace;
   border-radius: 5px;

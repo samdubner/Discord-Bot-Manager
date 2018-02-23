@@ -8,7 +8,8 @@ const ipcRenderer = require("electron").ipcRenderer;
 
 const shell = require("electron").shell;
 
-const markdown = require("markdown").markdown;
+const Remarkable = require('remarkable')
+const md = new Remarkable();
 
 const swal = require("sweetalert2");
 
@@ -237,8 +238,9 @@ function appendMessage(message, isDM, prepend) {
   }
   messageA.html(name);
   messageT.html(message.createdAt);
-  var text = urlify(message.cleanContent);
-  messageR.html(markdown.toHTML(text));
+  var text = md.render(message.cleanContent)
+  text = urlify(text);
+  messageR.html(text);
   if (!prepend) {
     $(".message-display").append(messageC);
   } else {

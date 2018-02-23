@@ -8,7 +8,7 @@ const ipcRenderer = require("electron").ipcRenderer;
 
 const shell = require("electron").shell;
 
-const Remarkable = require('remarkable')
+const Remarkable = require("remarkable");
 const md = new Remarkable();
 
 const swal = require("sweetalert2");
@@ -238,7 +238,7 @@ function appendMessage(message, isDM, prepend) {
   }
   messageA.html(name);
   messageT.html(message.createdAt);
-  var text = md.render(message.cleanContent)
+  var text = md.render(message.cleanContent);
   text = urlify(text);
   messageR.html(text);
   if (!prepend) {
@@ -319,7 +319,7 @@ $(document).on("click", ".server-container", function(e) {
     messageContainer.attr("name", channel.name);
     messageContainer.attr("server", channel.guild.name);
     message.addClass("channel");
-    message.html("#" + channel.name);
+    message.html("# " + channel.name);
     $(".left-bar").append(messageContainer);
     $(messageContainer).append(message);
   });
@@ -331,10 +331,12 @@ $(document).on("click", ".dm-container", function(e) {
   sendChannel = $(this).attr("id");
   serverId = $(this).attr("id");
   $("#message-text").attr("placeholder", "Message " + $(this).attr("name"));
-  $(".dm").removeClass("highlight");
+  $(".dm").removeClass("highlight-title");
+  $(this).removeClass("highlight");
+  $(this).addClass("highlight");
   $(this)
     .find(".dm")
-    .addClass("highlight");
+    .addClass("highlight-title");
   $(".message-display").empty();
   getMessages(sendChannel);
 });
@@ -347,8 +349,10 @@ $(document).on("click", ".channel-container", function() {
   var server = $(this).attr("server");
   $("#message-text").attr("placeholder", "Message #" + name + " in " + server);
   var clickedChannel = $(this).find(".channel");
-  $(".channel").removeClass("highlight");
-  clickedChannel.addClass("highlight");
+  $(".channel").removeClass("highlight-title");
+  clickedChannel.addClass("highlight-title");
+  $(".channel-container").removeClass("highlight");
+  $(this).addClass("highlight");
   $(".message-display").empty();
   getMessages(sendChannel);
 });
@@ -512,6 +516,7 @@ $("#message-text").on("keydown", function(e) {
 $(".message-display").scroll(function() {
   if ($(".message-display").scrollTop() == 0) {
     var channelR = bot.channels.get(sendChannel);
+    if (channelR == undefined) return;
     channelR
       .fetchMessages({
         limit: 50,

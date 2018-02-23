@@ -34,7 +34,7 @@
 .modal-body {
   padding: 1em 16px;
   max-height: 20em;
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 
 .modal-footer {
@@ -48,7 +48,6 @@
   color: #fff;
   margin-bottom: 0;
   margin-top: 0.9em;
-
 }
 
 #modalProfilePicture {

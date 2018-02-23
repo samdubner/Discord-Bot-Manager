@@ -156,9 +156,10 @@ code {
   margin: 0;
   left: 0;
   bottom: 7%;
-  width: 20%;
+  padding: 0 1em;
+  width: calc(20% - 2em);
   background-color: #2f3136;
-  overflow-y: scroll;
+  overflow-y: auto;
   height: 86%;
 }
 
@@ -184,6 +185,8 @@ code {
 
 .channel-container {
   margin-bottom: 1em;
+  padding: 3px 0;
+  border-radius: 4px;
 }
 
 .channel {
@@ -203,7 +206,7 @@ code {
 }
 
 #icon {
-  margin-top: 0;
+  margin-top: 2px;
   margin-right: 0;
   float: left;
 }
@@ -221,7 +224,8 @@ code {
 
 .dm-container {
   width: auto;
-  margin-left: 1em;
+  border-radius: 4px;
+  padding-left: 1em;
   margin-bottom: 0.5em;
 }
 
@@ -235,7 +239,11 @@ code {
 }
 
 .highlight {
-  color: #b9bbbe;
+  background-color: rgba(79,84,92,.6);
+}
+
+.highlight-title {
+  color: #f6f6f7;
 }
 
 .message-holder {

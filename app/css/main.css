@@ -35,6 +35,31 @@ code {
   margin: 0;
 }
 
+#voice-container {
+  border-bottom: 1px solid #36393f;
+  background-color: #2a2c31;
+  position: absolute;
+  bottom: 7%;
+  text-align: center;
+  width: 20%;
+  margin: 0;
+  padding: 0;
+}
+
+#voice-connected {
+  color: #43b581;
+  float: left;
+  margin: 0.5em 1em 0 1.5em;
+  display: block;
+}
+
+#voice-status {
+  color: #72767d;
+  float: left;
+  margin: 0 2em 1em 2em;
+  display: block;
+}
+
 .user-container {
   background-color: #2a2c31;
   position: absolute;
@@ -47,14 +72,14 @@ code {
 
 #user-name {
   margin: 0;
-  margin-top: 0.9em;
-  margin-left: 2em;
+  margin-top: 1em;
+  margin-left: 1em;
   color: #b9bab6;
   float: left;
 }
 
 #user-pfp {
-  margin-left: 4em;
+  margin-left: 3em;
   float: left;
   margin-top: 1em;
   border-radius: 50%;

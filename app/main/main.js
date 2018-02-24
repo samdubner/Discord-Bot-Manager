@@ -186,6 +186,22 @@ bot.on("ready", function() {
   getServers();
 });
 
+bot.on("voiceStateUpdate", (oldMember, newMember) => {
+  if (newMember.id != bot.user.id) return;
+  if (newMember.voiceChannel == null) {
+    $(".left-bar").css("height", "86%");
+    $(".left-bar").css("bottom", "7%");
+    $("#voice-container").hide();
+  } else if (newMember.voiceChannel != null) {
+    $(".left-bar").css("height", "calc(86% - 4.2em)");
+    $(".left-bar").css("bottom", "calc(7% + 4.2em)");
+    $("#voice-status").html(
+      `${newMember.voiceChannel.name} / ${newMember.guild.name}`
+    );
+    $("#voice-container").show();
+  }
+});
+
 function urlify(text) {
   var urlRegex = /(https?:\/\/[^\s]+)/g;
   return text.replace(urlRegex, function(url) {
@@ -312,16 +328,36 @@ $(document).on("click", ".server-container", function(e) {
     .sort((a, b) => a.position - b.position);
 
   textChannels.forEach(function(channel) {
-    var message = $(document.createElement("p"));
-    var messageContainer = $(document.createElement("div"));
-    messageContainer.addClass("channel-container");
-    messageContainer.attr("id", channel.id);
-    messageContainer.attr("name", channel.name);
-    messageContainer.attr("server", channel.guild.name);
-    message.addClass("channel");
-    message.html("# " + channel.name);
-    $(".left-bar").append(messageContainer);
-    $(messageContainer).append(message);
+    var channelName = $(document.createElement("p"));
+    var channelContainer = $(document.createElement("div"));
+    channelContainer.addClass("channel-container");
+    channelContainer.addClass("text-channel");
+    channelContainer.attr("id", channel.id);
+    channelContainer.attr("name", channel.name);
+    channelContainer.attr("server", channel.guild.name);
+    channelName.addClass("channel");
+    channelName.html("# " + channel.name);
+    $(".left-bar").append(channelContainer);
+    $(channelContainer).append(channelName);
+  });
+
+  textChannels = bot.guilds
+    .get(serverId)
+    .channels.filter(channel => channel.type == "voice")
+    .sort((a, b) => a.position - b.position);
+
+  textChannels.forEach(function(channel) {
+    var channelName = $(document.createElement("p"));
+    var channelContainer = $(document.createElement("div"));
+    channelContainer.addClass("channel-container");
+    channelContainer.addClass("voice-channel");
+    channelContainer.attr("id", channel.id);
+    channelContainer.attr("name", channel.name);
+    channelContainer.attr("server", channel.guild.name);
+    channelName.addClass("channel");
+    channelName.html("🔊 " + channel.name);
+    $(".left-bar").append(channelContainer);
+    $(channelContainer).append(channelName);
   });
 });
 
@@ -343,6 +379,7 @@ $(document).on("click", ".dm-container", function(e) {
 
 //shows messages in the channel that was clicked
 $(document).on("click", ".channel-container", function() {
+  if ($(this).hasClass("voice-channel")) return;
   channelSelected = true;
   sendChannel = $(this).attr("id");
   var name = $(this).attr("name");

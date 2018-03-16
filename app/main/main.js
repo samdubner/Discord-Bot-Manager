@@ -5,7 +5,6 @@ const remote = require("electron").remote;
 const BrowserWindow = remote.BrowserWindow;
 const app = remote.app;
 const ipcRenderer = require("electron").ipcRenderer;
-
 const shell = require("electron").shell;
 
 const Remarkable = require("remarkable");
@@ -32,6 +31,7 @@ function addToken(firstTime) {
     inputPlaceholder: "Please enter your bot token",
     showCancelButton: false,
     allowOutsideClick: false,
+    allowEscapeKey: false,
     background: "#2f3136",
     progressSteps: ["1", "2"],
     inputAttributes: {
@@ -88,6 +88,7 @@ function changeToken() {
     inputPlaceholder: "Select Token",
     showCancelButton: false,
     allowOutsideClick: false,
+    allowEscapeKey: false,
     background: "#2f3136"
   }).then(result => {
     object.keys.forEach(key => {

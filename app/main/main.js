@@ -231,15 +231,20 @@ function appendMessage(message, isDM, prepend) {
       i.attr("id", message.id);
       i.html("delete");
     }
-    var messageContentHolder = $(document.createElement("div"));
-    messageContentHolder.addClass("message-content-holder");
-    var messageContent = $(document.createElement("span"));
-    messageContent.addClass("message-received");
+
     var text = md.render(message.cleanContent);
     text = urlify(text);
+
+    var messageContentHolder = $(document.createElement("div"));
+    messageContentHolder.addClass("message-content-holder");
+
+    var messageContent = $(document.createElement("span"));
+    messageContent.addClass("message-received");
     messageContent.html(text);
+
     messageContentHolder.append(messageContent);
     messageContentHolder.append(i);
+
     $(
       $(".message-display")
         .children()
@@ -248,23 +253,7 @@ function appendMessage(message, isDM, prepend) {
     $(".message-display").scrollTop($(".message-display")[0].scrollHeight);
     return;
   }
-  var messageContainer = $(document.createElement("div"));
-  var messageAuthor = $(document.createElement("span"));
-  var messageTime = $(document.createElement("span"));
-  var messageContent = $(document.createElement("span"));
-  var pfp = $(document.createElement("img"));
-  if (message.deletable) {
-    var i = $(document.createElement("i"));
-    i.addClass("material-icons md-inactive md-dark md-18 trash");
-    i.attr("id", message.id);
-    i.html("delete");
-  }
-  messageTime.addClass("message-time");
-  pfp.attr("src", message.author.displayAvatarURL);
-  pfp.addClass("pfp");
-  pfp.attr("id", message.author.id);
-  messageAuthor.addClass("message-author");
-  messageAuthor.attr("id", message.author.id);
+
   var colorS;
   if (!isDM && !(message.member == null)) {
     colorS = message.member.displayHexColor;
@@ -272,26 +261,53 @@ function appendMessage(message, isDM, prepend) {
   if (colorS == "#000000" || isDM) {
     colorS = "#a6a6a6";
   }
-  messageAuthor.css("color", colorS);
-  messageContent.addClass("message-received");
+
+  var text = md.render(message.cleanContent);
+  text = urlify(text);
+
+  var messageContainer = $(document.createElement("div"));
   messageContainer.addClass("message-holder");
   messageContainer.attr("id", message.id);
   messageContainer.attr("author", message.author.id);
+
+  var messageAuthor = $(document.createElement("span"));
+  messageAuthor.addClass("message-author");
+  messageAuthor.attr("id", message.author.id);
+  messageAuthor.css("color", colorS);
+  messageAuthor.html(name);
+
+  var messageTime = $(document.createElement("span"));
+  messageTime.addClass("message-time");
+  messageTime.html(message.createdAt);
+
+  var messageContent = $(document.createElement("span"));
+  messageContent.addClass("message-received");
+  messageContent.html(text);
+
+  var pfp = $(document.createElement("img"));
+  pfp.attr("src", message.author.displayAvatarURL);
+  pfp.addClass("pfp");
+  pfp.attr("id", message.author.id);
+
+  if (message.deletable) {
+    var i = $(document.createElement("i"));
+    i.addClass("material-icons md-inactive md-dark md-18 trash");
+    i.attr("id", message.id);
+    i.html("delete");
+  }
+
   if (isDM || message.member.nickname == null) {
     var name = message.author.username;
   } else {
     var name = message.member.nickname;
   }
-  messageAuthor.html(name);
-  messageTime.html(message.createdAt);
-  var text = md.render(message.cleanContent);
-  text = urlify(text);
-  messageContent.html(text);
+
   if (!prepend) {
     $(".message-display").append(messageContainer);
   } else {
     $(".message-display").prepend(messageContainer);
   }
+
   $(messageContainer).append(pfp);
   $(messageContainer).append(messageAuthor);
   $(messageContainer).append(messageTime);

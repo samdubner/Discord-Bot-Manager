@@ -268,7 +268,7 @@ code {
 }
 
 .highlight-title {
-  color: #f6f6f7;
+  color: #b9bbbe;
 }
 
 .message-holder {
@@ -312,6 +312,11 @@ code {
   margin: 0;
 }
 
+.message-content-holder {
+  color: #b9bab6;
+  margin: 0;
+}
+
 .message-image {
   width: 15em;
   display: block;
@@ -328,6 +333,8 @@ code {
 
 .trash {
   cursor: pointer;
+  vertical-align: sub;
+  margin-left: 0.5em;
 }
 
 #changeTokenTitle {

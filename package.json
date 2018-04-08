@@ -28,7 +28,7 @@
     "electron-builder": "^19.56.0"
   },
   "dependencies": {
-    "discord.js": "11.3.0",
+    "discord.js": "^11.3.2",
     "electron-prompt": "^0.2.0",
     "electron-updater": "^2.20.1",
     "fast-deep-equal": "^1.0.0",

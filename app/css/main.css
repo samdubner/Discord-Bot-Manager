@@ -157,10 +157,11 @@ code {
   left: 20%;
   background-color: #36393e;
   color: #bebfc1;
-  text-align: center;
+  text-align: left;
   padding: 0;
+  padding-left: 1em;
   margin: 0;
-  width: 80%;
+  width: calc(80% - 1em);
   border: 0;
   border-top: 2px #2f3136 solid;
 }

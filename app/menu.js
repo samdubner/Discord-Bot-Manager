@@ -17,6 +17,11 @@ function change() {
   mainWindow.webContents.send("changeCurrentToken");
 }
 
+function reconnect() {
+  const mainWindow = BrowserWindow.getFocusedWindow();
+  mainWindow.webContents.send("reconnect");
+}
+
 //the about page is just the app version 11/10
 function about() {
   var message = "Version: " + app.getVersion() + "\n";
@@ -63,6 +68,12 @@ module.exports = {
               about();
             }
           },
+          // {
+          //   label: "Reconnect",
+          //   click: function() {
+          //     reconnect();
+          //   }
+          // },
           {
             label: "Settings",
             click: function() {

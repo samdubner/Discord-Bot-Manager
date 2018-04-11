@@ -598,7 +598,6 @@ $("#message-text").on("keydown", function(e) {
       alert("The bot must be online for you to send a message");
       return;
     } else if (document.getElementById("message-text").value == "") {
-      alert("You cannot send a blank message");
       return;
     } else if (!channelSelected) {
       alert("You must select a channel to send a message in");

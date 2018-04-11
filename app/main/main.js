@@ -119,6 +119,10 @@ ipcRenderer.on("changeCurrentToken", function(event, data) {
   changeToken();
 });
 
+ipcRenderer.on("reconnect", function(event, data) {
+  login();
+})
+
 var online = false;
 
 var channelSelected = false;
@@ -345,7 +349,7 @@ function appendMessage(message, isDM, prepend) {
 
 //adds message to text box when a message can be seen by the bot
 bot.on("message", message => {
-  if (channelSelected == true) {
+  if (channelSelected) {
     if (message.channel.id == sendChannel) {
       appendMessage(
         message,
@@ -519,8 +523,8 @@ $(document).on("click", "#user-pfp", function() {
 // Get the modal
 var modal = document.getElementById("userModal");
 
-// When the user clicks anywhere outside of the modal, close it
-window.onclick = function(event) {
+// When the user clicks anywhere outside of the user modal, close it
+window.onclick = function (event) {
   if (event.target == modal) {
     modal.style.display = "none";
     $(".modalGameName").hide();
@@ -590,13 +594,13 @@ $("#switch").click(function() {
 $("#message-text").on("keydown", function(e) {
   if (e.which == 13) {
     e.preventDefault();
-    if (online == false) {
+    if (!online) {
       alert("The bot must be online for you to send a message");
       return;
     } else if (document.getElementById("message-text").value == "") {
       alert("You cannot send a blank message");
       return;
-    } else if (channelSelected == false) {
+    } else if (!channelSelected) {
       alert("You must select a channel to send a message in");
       return;
     }
@@ -633,7 +637,7 @@ $(".message-display").scroll(function() {
 });
 
 function login() {
-  if (online == false) {
+  if (!online) {
     var string = fs.readFileSync(
       app.getPath("appData") + "/DBM/save.txt",
       "utf8"
@@ -651,10 +655,14 @@ function login() {
         );
       })
       .catch(err => {
+        $("#user-pfp").remove();
+        $("#message-text").attr("placeholder", "Please retry connection...")
+        $("#user-name").html("Unable to log in")
+        $("#loading-title").html("Bot failed to log in, please check your internet connection, and try restarting the app :(")
         alert(
           "The bot was unable to login, please check your internet connection, and make sure your bot key is correct"
         );
-        console.error(err.stack);
+        console.error(err);
       });
   } else {
     alert("The bot is already on");

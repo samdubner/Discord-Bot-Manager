@@ -7,6 +7,8 @@ const app = remote.app;
 const ipcRenderer = require("electron").ipcRenderer;
 const shell = require("electron").shell;
 
+const moment = require("moment");
+
 const Remarkable = require("remarkable");
 const md = new Remarkable();
 
@@ -93,7 +95,7 @@ function changeToken() {
   }).then(result => {
     object.keys.forEach(key => {
       if (key.token == result.value) {
-        object.keys.sort(function (x, y) {
+        object.keys.sort(function(x, y) {
           return x == key ? -1 : y == key ? 1 : 0;
         });
         string = JSON.stringify(object);
@@ -109,11 +111,11 @@ if (!fs.existsSync(app.getPath("appData") + "/DBM/save.txt")) {
   addToken(true);
 }
 
-ipcRenderer.on("addToken", function (event, data) {
+ipcRenderer.on("addToken", function(event, data) {
   addToken(false);
 });
 
-ipcRenderer.on("changeCurrentToken", function (event, data) {
+ipcRenderer.on("changeCurrentToken", function(event, data) {
   changeToken();
 });
 
@@ -126,7 +128,7 @@ var sendChannel;
 var firstMessageID;
 
 function getServers() {
-  bot.guilds.forEach(function (server) {
+  bot.guilds.forEach(function(server) {
     var serverLabel = $(document.createElement("h3"));
     var serverContainer = $(document.createElement("div"));
     var icon = $(document.createElement("img"));
@@ -144,7 +146,7 @@ function getServers() {
 }
 
 function getDMs() {
-  bot.channels.forEach(function (channel) {
+  bot.channels.forEach(function(channel) {
     if (channel.type != "dm" && channel.type != "group") return;
     var dmLabel = $(document.createElement("h3"));
     var dmContainer = $(document.createElement("div"));
@@ -179,7 +181,7 @@ function getDMs() {
 }
 
 //loads all the guilds when the bot is ready to go
-bot.on("ready", function () {
+bot.on("ready", function() {
   $("#switch").show();
   $(".message-display").empty();
   $("#user-name").html(bot.user.username);
@@ -205,13 +207,13 @@ bot.on("voiceStateUpdate", (oldMember, newMember) => {
 
 function urlify(text) {
   var urlRegex = /(https?:\/\/[^\s]+)/g;
-  return text.replace(urlRegex, function (url) {
+  return text.replace(urlRegex, function(url) {
     return '<a href="' + url + '">' + url + "</a>";
   });
 }
 
 //open links externally by default
-$(document).on("click", 'a[href^="http"]', function (event) {
+$(document).on("click", 'a[href^="http"]', function(event) {
   event.preventDefault();
   shell.openExternal(this.href);
 });
@@ -245,6 +247,14 @@ function appendMessage(message, isDM, prepend) {
     messageContentHolder.append(messageContent);
     messageContentHolder.append(i);
 
+    message.attachments.forEach(attachment => {
+      messageContentHolder.append(
+        $(document.createElement("img"))
+          .attr("src", attachment.url)
+          .addClass("message-image")
+      );
+    });
+
     $(
       $(".message-display")
         .children()
@@ -268,6 +278,9 @@ function appendMessage(message, isDM, prepend) {
     var name = message.member.nickname;
   }
 
+  var momentDate = moment(message.createdAt);
+  momentDate = momentDate.calendar();
+
   var text = md.render(message.cleanContent);
   text = urlify(text);
 
@@ -284,7 +297,7 @@ function appendMessage(message, isDM, prepend) {
 
   var messageTime = $(document.createElement("span"));
   messageTime.addClass("message-time");
-  messageTime.html(message.createdAt);
+  messageTime.html(momentDate);
 
   var messageContentHolder = $(document.createElement("div"));
   messageContentHolder.addClass("message-content-holder");
@@ -347,7 +360,7 @@ bot.on("message", message => {
 function reverseSend(messages) {
   firstMessageID = messages.last().id;
   var messagesReverse = new Map(Array.from(messages).reverse());
-  messagesReverse.forEach(function (messageF) {
+  messagesReverse.forEach(function(messageF) {
     appendMessage(
       messageF,
       messageF.channel.type == "dm" || messageF.channel.type == "group",
@@ -367,7 +380,7 @@ function getMessages(id) {
 }
 
 //shows all channels in the server that was clicked
-$(document).on("click", ".server-container", function (e) {
+$(document).on("click", ".server-container", function(e) {
   $(".left-bar").empty();
   $(".message-display").empty();
   $("#back").show();
@@ -378,7 +391,7 @@ $(document).on("click", ".server-container", function (e) {
     .channels.filter(channel => channel.type == "text")
     .sort((a, b) => a.position - b.position);
 
-  textChannels.forEach(function (channel) {
+  textChannels.forEach(function(channel) {
     var channelName = $(document.createElement("p"));
     var channelContainer = $(document.createElement("div"));
     channelContainer.addClass("channel-container");
@@ -393,7 +406,7 @@ $(document).on("click", ".server-container", function (e) {
   });
 });
 
-$(document).on("click", ".dm-container", function (e) {
+$(document).on("click", ".dm-container", function(e) {
   $(".message-display").empty();
   channelSelected = true;
   sendChannel = $(this).attr("id");
@@ -410,7 +423,7 @@ $(document).on("click", ".dm-container", function (e) {
 });
 
 //shows messages in the channel that was clicked
-$(document).on("click", ".channel-container", function () {
+$(document).on("click", ".channel-container", function() {
   if ($(this).hasClass("voice-channel")) return;
   channelSelected = true;
   sendChannel = $(this).attr("id");
@@ -467,12 +480,12 @@ function warn() {
   $(warningElement).append(warningMessage);
 }
 
-$(document).on("click", ".message-author", function () {
+$(document).on("click", ".message-author", function() {
   var message = $("#message-text").val() + ` <@${$(this).attr("id")}>`;
   $("#message-text").val(message.trim());
 });
 
-$(document).on("click", ".pfp", function () {
+$(document).on("click", ".pfp", function() {
   var member = bot.guilds.get(serverId).members.get($(this).attr("id"));
   $("#modalProfilePicture").attr("src", member.user.displayAvatarURL);
   var nickname =
@@ -489,7 +502,7 @@ $(document).on("click", ".pfp", function () {
   $("#userModal").css("display", "block");
 });
 
-$(document).on("click", "#user-pfp", function () {
+$(document).on("click", "#user-pfp", function() {
   $("#modalProfilePicture").attr("src", bot.user.displayAvatarURL);
   $("#modalUserName").html(bot.user.username);
   $("#modalDiscriminator").html(
@@ -507,14 +520,14 @@ $(document).on("click", "#user-pfp", function () {
 var modal = document.getElementById("userModal");
 
 // When the user clicks anywhere outside of the modal, close it
-window.onclick = function (event) {
+window.onclick = function(event) {
   if (event.target == modal) {
     modal.style.display = "none";
     $(".modalGameName").hide();
   }
 };
 
-$(document).on("click", "#back", function () {
+$(document).on("click", "#back", function() {
   $(".left-bar").empty();
   $(".message-display").empty();
   $("#message-text").attr(
@@ -527,24 +540,31 @@ $(document).on("click", "#back", function () {
 });
 
 //delete message
-$(document).on("click", ".material-icons", function () {
+$(document).on("click", ".material-icons", function() {
   var messageID = $(this).attr("id");
   bot.channels
     .get(sendChannel)
     .fetchMessage(messageID)
     .then(message => message.delete());
 
-  if($(this).parent().parent().find(".message-content-holder").length == 1) {
-    $(this).parent().parent().remove()
+  if (
+    $(this)
+      .parent()
+      .parent()
+      .find(".message-content-holder").length == 1
+  ) {
+    $(this)
+      .parent()
+      .parent()
+      .remove();
   } else {
     $(this)
-    .parent()
-    .remove();
+      .parent()
+      .remove();
   }
-
 });
 
-$("#switch").click(function () {
+$("#switch").click(function() {
   $("#message-text").attr(
     "placeholder",
     "Please select a channel to send messages in"
@@ -567,7 +587,7 @@ $("#switch").click(function () {
 });
 
 //makes sure the bot is online before attemption to send a message
-$("#message-text").on("keydown", function (e) {
+$("#message-text").on("keydown", function(e) {
   if (e.which == 13) {
     e.preventDefault();
     if (online == false) {
@@ -588,7 +608,7 @@ $("#message-text").on("keydown", function (e) {
   }
 });
 
-$(".message-display").scroll(function () {
+$(".message-display").scroll(function() {
   if ($(".message-display").scrollTop() == 0) {
     var channelR = bot.channels.get(sendChannel);
     if (channelR == undefined) return;
@@ -604,7 +624,7 @@ $(".message-display").scroll(function () {
           appendMessage(
             message,
             messages.first().channel.type == "dm" ||
-            messages.first().channel.type == "group",
+              messages.first().channel.type == "group",
             true
           )
         );

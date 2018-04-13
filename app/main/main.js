@@ -268,7 +268,7 @@ function appendMessage(message, isDM, prepend) {
     return;
   }
 
-  var colorS;
+  var colorS = "#000000";
   if (!isDM && !(message.member == null)) {
     colorS = message.member.displayHexColor;
   }

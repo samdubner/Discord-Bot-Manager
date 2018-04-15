@@ -121,7 +121,7 @@ ipcRenderer.on("changeCurrentToken", function(event, data) {
 
 ipcRenderer.on("reconnect", function(event, data) {
   login();
-})
+});
 
 var online = false;
 
@@ -491,6 +491,7 @@ $(document).on("click", ".message-author", function() {
 
 $(document).on("click", ".pfp", function() {
   var member = bot.guilds.get(serverId).members.get($(this).attr("id"));
+  $("#pfpLink").attr("href", member.user.displayAvatarURL);
   $("#modalProfilePicture").attr("src", member.user.displayAvatarURL);
   var nickname =
     member.nickname == null ? member.user.username : member.nickname;
@@ -524,7 +525,7 @@ $(document).on("click", "#user-pfp", function() {
 var modal = document.getElementById("userModal");
 
 // When the user clicks anywhere outside of the user modal, close it
-window.onclick = function (event) {
+window.onclick = function(event) {
   if (event.target == modal) {
     modal.style.display = "none";
     $(".modalGameName").hide();
@@ -656,9 +657,11 @@ function login() {
       })
       .catch(err => {
         $("#user-pfp").remove();
-        $("#message-text").attr("placeholder", "Please retry connection...")
-        $("#user-name").html("Unable to log in")
-        $("#loading-title").html("Bot failed to log in, please check your internet connection, and try restarting the app :(")
+        $("#message-text").attr("placeholder", "Please retry connection...");
+        $("#user-name").html("Unable to log in");
+        $("#loading-title").html(
+          "Bot failed to log in, please check your internet connection, and try restarting the app :("
+        );
         alert(
           "The bot was unable to login, please check your internet connection, and make sure your bot key is correct"
         );

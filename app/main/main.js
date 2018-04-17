@@ -447,20 +447,24 @@ function getModalRoles(member) {
   $("#modalRoleList").empty();
   member.roles.sort((a, b) => b.position - a.position).forEach(role => {
     if (role.name != "@everyone") {
-      var roleElement = $(document.createElement("li"));
-      var roleColor = $(document.createElement("div"));
-      var roleName = $(document.createElement("div"));
-      roleElement.addClass("modalRole");
-      roleColor.addClass("modalRoleColor");
-      roleName.addClass("modalRoleName");
-      roleName.html(role.name);
       var color =
         role.hexColor == "#000000" ? "hsla(0,0%,100%,.8)" : role.hexColor;
+      
+        var roleElement = $(document.createElement("li"));
+      roleElement.addClass("modalRole");
       roleElement.css("border-color", color);
+
+      var roleColor = $(document.createElement("div"));
+      roleColor.addClass("modalRoleColor");
       roleColor.css("background-color", color);
-      $("#modalRoleList").append(roleElement);
+      
+      var roleName = $(document.createElement("div"));
+      roleName.addClass("modalRoleName");
+      roleName.html(role.name);
+      
       $(roleElement).append(roleColor);
       $(roleElement).append(roleName);
+      $("#modalRoleList").append(roleElement);
     }
   });
 }
@@ -525,7 +529,7 @@ $(document).on("click", "#user-pfp", function () {
 var modal = document.getElementById("userModal");
 
 // When the user clicks anywhere outside of the user modal, close it
-window.onclick = function(event) {
+window.onclick = function (event) {
   if (event.target == modal) {
     modal.style.display = "none";
     $(".modalGameName").hide();

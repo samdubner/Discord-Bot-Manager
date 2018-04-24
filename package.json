@@ -25,18 +25,17 @@
   "devDependencies": {
     "7zip-bin-win": "^2.2.0",
     "electron": "^1.8.2",
-    "electron-builder": "^19.56.0"
+    "electron-builder": "^19.56.0",
+    "fast-deep-equal": "^1.1.0",
+    "source-map": "^0.7.2",
+    "source-map-support": "^0.5.4"
   },
   "dependencies": {
     "discord.js": "^11.3.2",
-    "electron-prompt": "^0.2.0",
-    "electron-updater": "^2.20.1",
-    "fast-deep-equal": "^1.0.0",
+    "electron-updater": "^2.21.8",
     "fs": "0.0.1-security",
-    "moment": "^2.22.0",
+    "moment": "^2.22.1",
     "remarkable": "^1.7.1",
-    "source-map": "^0.7.0",
-    "source-map-support": "^0.5.3",
-    "sweetalert2": "^7.11.0"
+    "sweetalert2": "^7.19.1"
   }
 }

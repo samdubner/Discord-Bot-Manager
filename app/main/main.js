@@ -449,19 +449,19 @@ function getModalRoles(member) {
     if (role.name != "@everyone") {
       var color =
         role.hexColor == "#000000" ? "hsla(0,0%,100%,.8)" : role.hexColor;
-      
-        var roleElement = $(document.createElement("li"));
+
+      var roleElement = $(document.createElement("li"));
       roleElement.addClass("modalRole");
       roleElement.css("border-color", color);
 
       var roleColor = $(document.createElement("div"));
       roleColor.addClass("modalRoleColor");
       roleColor.css("background-color", color);
-      
+
       var roleName = $(document.createElement("div"));
       roleName.addClass("modalRoleName");
       roleName.html(role.name);
-      
+
       $(roleElement).append(roleColor);
       $(roleElement).append(roleName);
       $("#modalRoleList").append(roleElement);
@@ -490,6 +490,7 @@ function warn() {
 
 $(document).on("click", ".message-author", function () {
   var message = $("#message-text").val() + ` <@${$(this).attr("id")}>`;
+  $("#message-text").focus();
   $("#message-text").val(message.trim());
 });
 

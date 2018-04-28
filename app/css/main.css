@@ -189,6 +189,34 @@ code {
   height: 86%;
 }
 
+.right-bar {
+  position: absolute;
+  margin: 0;
+  right: 0;
+  bottom: calc(2em - 2px);
+  padding: 0 1em;
+  width: calc(20% - 2em);
+  background-color: #2f3136;
+  overflow-y: auto;
+  height: calc(96% + 2px);
+}
+
+.rightBarRole {
+  color: hsla(0,0%,100%,.4);
+  font-size: 12px;
+  font-weight: 500;
+  height: 40px;
+  letter-spacing: .08em;
+  line-height: 20px;
+  overflow: hidden;
+  padding-left: 16px;
+  padding-right: 8px;
+  padding-top: 20px;
+  text-overflow: ellipsis;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
 .message-display {
   position: absolute;
   left: 20%;

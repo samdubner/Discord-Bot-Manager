@@ -383,6 +383,27 @@ function getMessages(id) {
     .then(messages => reverseSend(messages));
 }
 
+function appendRole(role) {
+  if (role.name == "@everyone") return;
+
+  var roleName = $(document.createElement("div"))
+  roleName.addClass("rightBarRole");
+  roleName.html(`${role.name}—${role.members.size}`)
+
+  var roleMember = $(document.createElement("div"));
+  var pfp = $(document.createElement("img"));
+  
+  role.members.forEach(function (member) {
+    pfp.attr("src", member.user.displayAvatarURL);
+    pfp.addClass("pfp");
+    pfp.attr("id", member.user.id);
+    roleMember.append(pfp)
+    $("right-bar").append(roleMember)
+  })
+
+  $(".right-bar").append(roleName)
+}
+
 //shows all channels in the server that was clicked
 $(document).on("click", ".server-container", function (e) {
   $(".left-bar").empty();
@@ -408,6 +429,15 @@ $(document).on("click", ".server-container", function (e) {
     $(".left-bar").append(channelContainer);
     $(channelContainer).append(channelName);
   });
+
+  var roles = bot.guilds
+    .get(serverId)
+    .roles.filter(role => role.hoist == true)
+    .sort((a, b) => b.position - a.position);
+
+  roles.forEach(function (role) {
+    appendRole(role)
+  })
 });
 
 $(document).on("click", ".dm-container", function (e) {

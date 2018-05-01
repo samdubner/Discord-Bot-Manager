@@ -360,6 +360,14 @@ code {
   cursor: pointer;
 }
 
+.right-bar-pfp {
+  vertical-align: bottom !important;
+}
+
+.right-bar-user {
+  padding-left: 16px;
+}
+
 .trash {
   cursor: pointer;
   vertical-align: sub;

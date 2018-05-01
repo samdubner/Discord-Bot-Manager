@@ -384,24 +384,40 @@ function getMessages(id) {
 }
 
 function appendRole(role) {
-  if (role.name == "@everyone") return;
+  // if (role.name == "@everyone") return;
 
   var roleName = $(document.createElement("div"))
   roleName.addClass("rightBarRole");
   roleName.html(`${role.name}—${role.members.size}`)
 
+  $(".right-bar").append(roleName)
+
+  if (role.members.size > 50) {
+    $('.right-bar').append("<p>There are too many people in this role to display</p>")
+    return;
+  }
+
   var roleMember = $(document.createElement("div"));
+  roleMember.addClass("right-bar-user")
+
   var pfp = $(document.createElement("img"));
-  
+  var name = $(document.createElement("span"))
+
   role.members.forEach(function (member) {
     pfp.attr("src", member.user.displayAvatarURL);
-    pfp.addClass("pfp");
+    pfp.addClass("pfp right-bar-pfp");
     pfp.attr("id", member.user.id);
+
+    name.addClass("message-author");
+    name.attr("id", member.id);
+    name.css("color", "#a6a6a6");
+    name.html(member.user.username);
+
     roleMember.append(pfp)
-    $("right-bar").append(roleMember)
+    roleMember.append(name)
+    $(".right-bar").append(roleMember)
   })
 
-  $(".right-bar").append(roleName)
 }
 
 //shows all channels in the server that was clicked
@@ -569,6 +585,7 @@ window.onclick = function (event) {
 
 $(document).on("click", "#back", function () {
   $(".left-bar").empty();
+  $(".right-bar").empty();
   $(".message-display").empty();
   $("#message-text").attr(
     "placeholder",

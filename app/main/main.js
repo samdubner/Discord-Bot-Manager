@@ -411,9 +411,10 @@ function appendRole(role) {
   $(".right-bar").append(roleName);
 
   if (role.members.size > 50) {
-    $(".right-bar").append(
-      "<p>There are too many people in this role to display</p>"
-    );
+    var warningMessage = $(document.createElement("p"))
+    warningMessage.html("Too many members to display")
+    warningMessage.addClass("warning-message")
+    $(".right-bar").append(warningMessage);
     return;
   }
 

@@ -218,7 +218,7 @@ code {
   left: 20%;
   top: 0;
   bottom: 0;
-  right: 0;
+  right: 20%;
   background-color: #36393e;
   overflow-y: scroll;
   height: calc(100% - 2em + 2px);

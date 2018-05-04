@@ -14,7 +14,9 @@
   <div id="userModal" class="modal">
     <div class="modal-content">
       <div class="modal-header">
-        <a id="pfpLink" href=""><img id="modalProfilePicture" src="" /></a>
+        <a id="pfpLink" href="">
+          <img id="modalProfilePicture" src="" />
+        </a>
         <h2 id="modalUserName"></h2>
         <h3 id="modalDiscriminator">
           </h2>
@@ -32,14 +34,15 @@
   <div class="display-holder">
     <div class="button-container">
       <input type="button" class="buttons" id="back" value="Back" hidden />
-      <input type="text" id="search-text" onkeyup="searchFunction()" placeholder="Search Users " hidden/>
+      <input type="text" id="search-text" onkeyup="searchFunction()" placeholder="Search..." hidden/>
       <input type="button" class="buttons" id="switch" value="DMs" hidden />
     </div>
     <div class="left-bar">
     </div>
     <div id="voice-container" hidden>
       <h3 id="voice-connected">🔊 Voice Connected</h3>
-      <h5 id="voice-status"></h4>
+      <h5 id="voice-status">
+        </h4>
     </div>
     <div class="user-container">
       <img id="user-pfp" src="" />
@@ -68,6 +71,10 @@
   function searchFunction() {
     var searchTerm = $('#search-text').val().toLowerCase();
     $(".dm-container")
+      .hide()
+      .filter(":contains('" + searchTerm + "')")
+      .show();
+    $(".server-container")
       .hide()
       .filter(":contains('" + searchTerm + "')")
       .show();

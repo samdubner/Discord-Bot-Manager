@@ -341,6 +341,17 @@ code {
 .message-content-holder {
   color: #b9bab6;
   margin: 0;
+  margin-top: -10px;
+}
+
+.message-info {
+  margin-top: 8px;
+  margin-left: 60px;
+}
+
+.message-pfp {
+  float: left !important;
+  width: 40px !important;
 }
 
 .message-image {
@@ -360,6 +371,7 @@ code {
 
 .right-bar-pfp {
   vertical-align: bottom !important;
+  width: 20px !important;
 }
 
 .right-bar-user {

@@ -275,7 +275,7 @@ function appendMessage(message, isDM, prepend) {
     colorS = message.member.displayHexColor;
   }
   if (colorS == "#000000" || isDM) {
-    colorS = "#a6a6a6";
+    colorS = "#ffffff";
   }
 
   if (isDM || message.member.nickname == null) {
@@ -415,7 +415,7 @@ function addMember(member) {
 
   var color = member.displayHexColor;
   if (color == "#000000") {
-    color = "#a6a6a6";
+    color = "#ffffff";
   }
 
   var pfp = $(document.createElement("img"));

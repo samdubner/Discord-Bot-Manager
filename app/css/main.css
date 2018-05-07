@@ -311,7 +311,6 @@ code {
   max-width: calc(100% - 1em);
   word-wrap: break-word;
 }
-}
 
 .message-author {
   display: inline-block;

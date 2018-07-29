@@ -1,6 +1,6 @@
 {
   "name": "DBM",
-  "version": "1.9.4",
+  "version": "1.10.0",
   "description": "A simple application to manage your discord bot's messages",
   "main": "index.js",
   "scripts": {

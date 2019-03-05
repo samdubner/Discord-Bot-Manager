@@ -223,6 +223,75 @@ $(document).on("click", 'a[href^="http"]', function (event) {
   shell.openExternal(this.href);
 });
 
+function createEmbedField(field) {
+  var fieldContainer = $(document.createElement("div"));
+  fieldContainer.addClass("field-container");
+
+  var fieldName = $(document.createElement("div"));
+  fieldName.addClass("field-name");
+  fieldName.html(field.name)
+
+  var fieldValue = $(document.createElement("div"));
+  fieldValue.addClass("field-value");
+  fieldValue.html(field.value)
+  
+  fieldContainer.append(fieldName)
+  fieldContainer.append(fieldValue)
+
+  return fieldContainer;
+}
+
+function createEmbed(embed) {
+  var embedContainer = $(document.createElement("div"));
+  embedContainer.addClass("embed-container");
+
+  var embedPill = $(document.createElement("div"));
+  embedPill.addClass("embed-pill");
+  embedPill.css("background-color", "#4f545c")
+
+  var embedInner = $(document.createElement("div"));
+  embedInner.addClass("embed-inner");
+
+  var embedContent = $(document.createElement("div"));
+  embedContent.addClass("embed-content")
+
+  if (embed.title != undefined) {
+    var embedTitle = $(document.createElement("span"));
+    embedTitle.addClass("embed-title")
+    embedTitle.html(embed.title)
+  }
+
+  if (embed.description != undefined) {
+    var embedDescription = $(document.createElement("div"));
+    embedDescription.addClass("embed-description")
+    embedDescription.html(embed.description)
+  }
+
+  var fieldsContainer = $(document.createElement("div"));
+  fieldsContainer.addClass("fields-container")
+
+  embed.fields.forEach(field => {
+    var embedField = createEmbedField(field)
+    fieldsContainer.append(embedField)
+  })
+
+  if (embed.image != undefined) {
+    var embedImage = $(document.createElement("img"));
+    embedImage.addClass("embed-image")
+    embedImage.attr("src", embed.image.url)
+  }
+
+  embedInner.append(embedTitle)
+  embedInner.append(embedDescription)
+  embedInner.append(fieldsContainer)
+  embedInner.append(embedImage)
+
+  embedContainer.append(embedPill)
+  embedContainer.append(embedInner)
+
+  return embedContainer;
+}
+
 //adds message to the text box
 function appendMessage(message, isDM, prepend) {
   if (message.type != "DEFAULT") return;
@@ -248,6 +317,11 @@ function appendMessage(message, isDM, prepend) {
     var messageContent = $(document.createElement("span"));
     messageContent.addClass("message-received");
     messageContent.html(text);
+
+    message.embeds.forEach(embed => {
+      var finalEmbed = createEmbed(embed)
+      messageContentHolder.append(finalEmbed)
+    })
 
     messageContentHolder.append(messageContent);
     messageContentHolder.append(i);
@@ -341,6 +415,10 @@ function appendMessage(message, isDM, prepend) {
   messageContentHolder.append(messageContent);
   messageContentHolder.append(i);
   messageInfo.append(messageContentHolder);
+  message.embeds.forEach(embed => {
+    var finalEmbed = createEmbed(embed)
+    messageContentHolder.append(finalEmbed)
+  })
   message.attachments.forEach(attachment => {
     messageInfo.append(
       $(document.createElement("img"))
@@ -459,8 +537,8 @@ $(document).on("click", ".server-container", function (e) {
   $(".left-bar").empty();
   $(".message-display").empty();
   $("#search-text")
-  .hide()
-  .val("");
+    .hide()
+    .val("");
   $("#back").show();
   serverId = $(this).attr("id");
 
